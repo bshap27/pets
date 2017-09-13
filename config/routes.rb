@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+  resources :pet_breeds
+
+  resources :breeds
+
   resources :users
 
   resources :pets
-  root 'pets#index'
+  root 'pets#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

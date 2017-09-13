@@ -1,0 +1,17 @@
+<%= form_for(@pet_breed) do |f| %>
+  <% if @pet_breed.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pet_breed.errors.count, "error") %> prohibited this pet_breed from being saved:</h2>
+
+      <ul>
+      <% @pet_breed.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
