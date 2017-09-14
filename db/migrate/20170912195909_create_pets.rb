@@ -1,9 +1,12 @@
 class CreatePets < ActiveRecord::Migration
   def change
     create_table :pets do |t|
-      t.datetime :sitecreated
-      t.string :petname
-      t.string :breed
+      t.string :name
+      t.string :animal
+      t.string :sex
+      t.string :petfinder_num
+      t.string :mix
+      t.integer :breed_id
       t.timestamps null: false
     end
   end

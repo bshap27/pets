@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(version: 20170913212433) do
 
   create_table "breeds", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -26,12 +27,14 @@ ActiveRecord::Schema.define(version: 20170913212433) do
   end
 
   create_table "pets", force: :cascade do |t|
-    t.datetime "sitecreated"
-    t.string   "petname"
-    t.string   "breed"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name"
+    t.string   "animal"
+    t.string   "sex"
+    t.string   "petfinder_num"
+    t.string   "mix"
     t.integer  "breed_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "users", force: :cascade do |t|
