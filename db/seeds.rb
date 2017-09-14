@@ -30,13 +30,3 @@ Breed.create([
   {name: 'Cocker Spaniel'},
   {name: 'Spaniel'}
 ])
-
-# options = breed, size, sex, age, offset, count
-# syntax for options: petfinder.find_pets('dog', 10014, :size => 'S')
-def find_new_pets(animal_type, location, *options)
-  petfinder = PetfinderApi.authenticate
-  pets = petfinder.find_pets(animal_type, location, *options)
-  pets.each do |pet|
-    Pet.create_or_update_pet(pet.id)
-  end
-end
