@@ -27,11 +27,17 @@ ActiveRecord::Schema.define(version: 20170913212433) do
   end
 
   create_table "pets", force: :cascade do |t|
+    t.string   "petfinderid"
     t.string   "name"
-    t.string   "animal"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "description"
     t.string   "sex"
-    t.string   "petfinder_num"
+    t.string   "size"
     t.string   "mix"
+    t.string   "animal"
+    t.string   "primary_photo"
     t.integer  "breed_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
