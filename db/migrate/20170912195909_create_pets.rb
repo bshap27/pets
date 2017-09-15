@@ -12,7 +12,6 @@ class CreatePets < ActiveRecord::Migration
       t.string :mix
       t.string :animal
       t.string :primary_photo
-      t.integer :breed_id
       t.timestamps null: false
     end
   end

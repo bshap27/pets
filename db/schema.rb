@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20170913212433) do
     t.string   "mix"
     t.string   "animal"
     t.string   "primary_photo"
-    t.integer  "breed_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
