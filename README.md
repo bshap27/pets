@@ -3,8 +3,18 @@ new pets on petfinder
 
 TODO:
 
-- seed database and create first view with list of pets
-- read pets from petfinder API
-- use react to filter list of pets by created date
-- update database on timer
-- send daily email with new pets
+- use react to filter list of pets by attributes and created date
+- update database daily on timer
+
+Missing from dog schema:
+All shelter info (name etc - only avail is shelter ID)
+Characteristics eg House trained • Spayed/Neutered • Current on vaccinations • Prefers a home without: Young Children • Primary Color(s): Yellow / Tan / Blond / Fawn • Coat Length: Short => XML below
+	<options>
+		<option>hasShots</option>
+		<option>noKids</option>
+		<option>altered</option>
+		<option>housetrained</option>
+	</options>
+
+- find_new_pets should also update existing pets
+- lastupdate field in API - usable? timestamp: 2017-08-29T12:01:38Z
