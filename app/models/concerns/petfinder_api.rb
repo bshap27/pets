@@ -29,6 +29,7 @@ class PetfinderApi
 
   def self.find_new_pets(animal_type, location, *options)
     url = "#{API_URL}/pet.find?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&animal=#{animal_type}&location=#{location}"
+    count = 0
     # age=young&age=adult&gender=female&distance=25&characteristics=houseTrained&size=S&size=M
     # options looks like this: [{:count=>25, :size=>"S"}]
     if options.length > 0
@@ -52,10 +53,12 @@ class PetfinderApi
         attrs = get_pet_attrs(pet)
         animal = create_or_update_pet(attrs) # creates/updates pet one at a time
         # animals.push animal (2/4)
+        count += 1
       end
     else
       attrs = get_pet_attrs(data[:pet])
       animal = create_or_update_pet(attrs)
+      count = 1
       # animals.push animal (3/4)
     end
 
@@ -63,6 +66,7 @@ class PetfinderApi
     #   self.create_or_update_pet(pet)
     # end
     # animals (4/4)
+    puts count
   end
 
   def self.get_pet_attrs(pet = {})
@@ -113,14 +117,16 @@ class PetfinderApi
   ####
 
   def self.create_or_update_pet(pet) # pet is a hash containing attrs and breeds
-    p = Pet.find_by(petfinderid: pet[:attrs][:id])
-    if !p
+    p = Pet.find_by(petfinderid: pet[:attrs][:petfinderid])
+    if p == nil
       # create pet without breed info
       # create pet_breed(s) with breed id(s)
       new_pet = Pet.create(pet[:attrs])
-    end
-    pet[:breeds].each do |breed_id|
-      PetBreed.create({pet_id: new_pet.id, breed_id: breed_id})
+      pet[:breeds].each do |breed_id|
+        PetBreed.create({pet_id: new_pet.id, breed_id: breed_id})
+      end
+  # else
+    # update pet
     end
   end
 
