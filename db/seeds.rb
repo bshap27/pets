@@ -30,3 +30,20 @@
 #   {name: 'Cocker Spaniel'},
 #   {name: 'Spaniel'}
 # ])
+
+### API limits:
+# Total requests per day: 10,000
+# Records per request: 1,000
+# Maximum records per search: 2,000
+
+count = 10
+reps = 3
+counter = 0
+offset = 0
+p = count
+
+while p == count && counter <= reps
+  p = PetfinderApi.find_new_pets('dog', 10014, :offset => offset, :count => count)
+  offset += count
+  counter += 1
+end

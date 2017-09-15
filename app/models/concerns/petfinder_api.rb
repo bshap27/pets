@@ -66,7 +66,7 @@ class PetfinderApi
     #   self.create_or_update_pet(pet)
     # end
     # animals (4/4)
-    puts count
+    count
   end
 
   def self.get_pet_attrs(pet = {})
