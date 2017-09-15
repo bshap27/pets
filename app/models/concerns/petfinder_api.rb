@@ -133,9 +133,9 @@ class PetfinderApi
   end
 
   # def self.create_or_update_pet(pet) # Below are the pet attributes available when using the petfinder gem.
-  #   p = Pet.find_by(petfinder_num: pet.id)
+  #   p = Pet.find_by(petfinderid: pet.id)
   #   if !p
-  #     Pet.create({petfinder_num: pet.id, name: pet.name, animal: pet.animal, mix: pet.mix, sex: pet.sex}) #refactor this to iterate over pet attributes?
+  #     Pet.create({petfinderid: pet.id, name: pet.name, animal: pet.animal, mix: pet.mix, sex: pet.sex}) #refactor this to iterate over pet attributes?
   #   end
   # end
 
