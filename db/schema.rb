@@ -11,14 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912195909) do
+ActiveRecord::Schema.define(version: 20170913212433) do
+
+  create_table "breeds", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pet_breeds", force: :cascade do |t|
+    t.integer  "pet_id"
+    t.integer  "breed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pets", force: :cascade do |t|
-    t.datetime "sitecreated"
-    t.string   "petname"
-    t.string   "breed"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "petfinderid"
+    t.string   "name"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "description"
+    t.string   "sex"
+    t.string   "size"
+    t.string   "mix"
+    t.string   "animal"
+    t.string   "primary_photo"
+    t.integer  "breed_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
