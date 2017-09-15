@@ -4,9 +4,13 @@ class PetsController < ApplicationController
   
   def index
     @pets = Pet.all
+    @breeds = Breed.all
   end
 
   def show
+  end
+
+  def results
   end
 
   # GET /posts/new

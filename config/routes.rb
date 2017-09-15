@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
-  resources :pet_breeds
-
-  resources :breeds
-
-  resources :users
-
+  # resources :users
   resources :pets
-  root 'pets#show'
+  get 'results' => 'pets#results'
+
+  root 'pets#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
