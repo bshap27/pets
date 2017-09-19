@@ -23,12 +23,12 @@ class PetfinderApi
       if data[:pet].is_a? Array
         data[:pet].each do |pet|
           attrs = get_pet_attrs(pet)
-          result = create_or_update_pet(attrs)
+          create_or_update_pet(attrs)
           count += 1
         end
       else
         attrs = get_pet_attrs(data[:pet])
-        result = create_or_update_pet(attrs)
+        create_or_update_pet(attrs)
         count = 1
       end
     rescue
@@ -96,6 +96,7 @@ class PetfinderApi
       end
     else
       pet[:attrs][:new_pet] = false
+      Pet.update(p.id, pet[:attrs])
     end
   end
 
