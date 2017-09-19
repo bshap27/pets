@@ -1,30 +1,16 @@
-<!-- This creates a search form. But really what I want is a landing page that allows users to filter by NEWNESS as well as pet characteristics. -->
-<!-- Alternatively, I can present a search form and then allow users to filter by newness. DB updates can be powered by user searches - but that will slow down the app. "Distributed crawler system" -->
-
-<%= form_tag("/results", method: "get") do %>
-  <fieldset>
-    <legend>Search Pets:</legend>
-    <div class="form-group"> <!-- i think this came from bootstrap -->
-      <div>
-				<%= select_tag(:breed, options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}), :class => "form-control", :id => "select") %>
-      </div>
-
-			<div>
-        <%= check_box_tag(:small) %>
-        <%= label_tag(:small, "Small") %>
-        <%= check_box_tag(:medium) %>
-        <%= label_tag(:medium, "Medium") %>
-        <%= check_box_tag(:large) %>
-        <%= label_tag(:large, "Large") %>
-    	</div>
-      
-<!-- zip -->
-<!-- distance -->
-<!-- sex -->
-<!-- created date -->
-
-      <%= submit_tag("Search", :class => "btn btn-primary") %>
-    	<!-- yields search results url: http://localhost:3000/results?utf8=%E2%9C%93&breed=1&small=1&commit=Search -->
-    </div>
-  </fieldset>
-<% end %>
+<div>
+  <ul class="nav navbar-nav navbar-right">
+    <% if user_signed_in? %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hello, <%= current_user.email %>! <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="<%= my_pets_path %>">My Festivals</a></li>
+          <li><a href="<%= edit_user_registration_path %>">My Account</a></li>
+        </ul>
+      </li>
+      <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
+    <% else %>
+      <li><%= link_to "Sign In", new_user_session_path %></li>
+    <% end %>
+  </ul>
+<div>

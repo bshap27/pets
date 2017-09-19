@@ -1,5 +1,6 @@
 class UserPetsController < ApplicationController
   before_action :set_user_pet, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /user_pets
   # GET /user_pets.json

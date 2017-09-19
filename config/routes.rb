@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+  get 'my_pets' => 'users#pets'
   resources :user_pets
 
   # resources :users
