@@ -48,3 +48,4 @@ end
 
 gem 'figaro'
 gem 'petfinder', '~> 1.0', '>= 1.0.3'
+gem 'whenever', :require => false
