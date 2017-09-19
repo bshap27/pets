@@ -9,7 +9,7 @@ counter = 0
 offset = 0
 p = count
 sizes = ["S", "M", "L"]
-round = 2
+round = 0
 
 while p == count && counter < reps && round < sizes.length
   p = PetfinderApi.find_new_pets('dog', 10014, :offset => offset, :count => count, :size => sizes[round])
