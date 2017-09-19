@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919200418) do
+ActiveRecord::Schema.define(version: 20170919201905) do
 
   create_table "breeds", force: :cascade do |t|
     t.string   "name"
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20170919200418) do
     t.datetime "updated_at",    null: false
     t.boolean  "new_pet"
     t.string   "age"
+  end
+
+  create_table "user_pets", force: :cascade do |t|
+    t.integer  "pet_id"
+    t.integer  "breed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

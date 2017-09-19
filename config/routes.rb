@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :user_pets
+
   # resources :users
   resources :pets
   get 'results' => 'pets#results'
