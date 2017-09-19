@@ -50,6 +50,7 @@ class PetfinderApi
       # fax: pet[:contact][:fax]['$t'],
       description: pet[:description]['$t'],
       sex: pet[:sex]['$t'],
+      age: pet[:age]['$t'].downcase,
       size: pet[:size]['$t'],
       mix: pet[:mix]['$t'],
       animal: pet[:animal]['$t']
