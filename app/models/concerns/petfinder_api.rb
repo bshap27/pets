@@ -1,30 +1,8 @@
 require 'open-uri'
 
 class PetfinderApi
-  #################
-  # Petfinder Gem #
-  #################
-
-  # The below methods are functional for the petfinder gem. The gem is insufficient because it doesn't allow you to set a mileage radius around your location.
-
-  # def self.authenticate
-  #   Petfinder::Client.new(ENV["PETFINDER_CLIENT_ID"], ENV["PETFINDER_CLIENT_SECRET"])
-  # end
-
-  # options = breed, size, sex, age, offset, count
-  # syntax for options: petfinder.find_pets('dog', 10014, :size => 'S')
-  # def self.find_new_pets(animal_type, location, *options)
-  #   petfinder = self.authenticate
-  #   pets = petfinder.find_pets(animal_type, location, *options)
-  #   pets.each do |pet|
-  #     self.create_or_update_pet(pet)
-  #   end
-  # end
-
-  #################
-  # Petfinder API #
-  #################
   # SOURCE https://github.com/ianhirschfeld/petfinder-api/blob/master/app/services/shelter_service.rb
+  # Gem and API do not observe distance/mileage radius around your location.
   API_URL = 'http://api.petfinder.com'
 
   def self.find_new_pets(animal_type, location, *options)
@@ -37,35 +15,26 @@ class PetfinderApi
         url = url + '&' + key.to_s + '=' + value.to_s
       end
     end
-    if !url['distance'] # default distance 25 miles
-      url = url + '&distance=25'
-    end
-
+    # puts url # log url to be able to replicate API call
     response = open(url) { |v| JSON(v.read).with_indifferent_access }
     data = response[:petfinder][:pets]
-    # animals = [] # this is only necessary if you want the method to return all of the animals found. (1/4)
 
-    if data[:pet].is_a? Array
-      data[:pet].each do |pet|
-        # Only import dogs and cats => At launch my app will only offer dog search. Commenting out for now.
-        # next unless ['Dog', 'Cat'].include?(pet[:animal]['$t'])
-
-        attrs = get_pet_attrs(pet)
-        animal = create_or_update_pet(attrs) # creates/updates pet one at a time
-        # animals.push animal (2/4)
-        count += 1
+    begin
+      if data[:pet].is_a? Array
+        data[:pet].each do |pet|
+          attrs = get_pet_attrs(pet)
+          result = create_or_update_pet(attrs)
+          count += 1
+        end
+      else
+        attrs = get_pet_attrs(data[:pet])
+        result = create_or_update_pet(attrs)
+        count = 1
       end
-    else
-      attrs = get_pet_attrs(data[:pet])
-      animal = create_or_update_pet(attrs)
-      count = 1
-      # animals.push animal (3/4)
+    rescue
+      puts data
     end
 
-    # pets.each do |pet| # creates/updates pets after all are gathered in array
-    #   self.create_or_update_pet(pet)
-    # end
-    # animals (4/4)
     count
   end
 
@@ -106,27 +75,27 @@ class PetfinderApi
     # else
     #   attrs[:photos].push pet[:media][:photos][:photo]['$t']
     # end
-    if pet[:media][:photos][:photo].is_a? Array
-      attrs[:primary_photo] = pet[:media][:photos][:photo][0]['$t']
-    else
-      attrs[:primary_photo] = pet[:media][:photos][:photo]['$t']
+    if pet[:media] != nil && pet[:media][:photos] != nil && pet[:media][:photos][:photo] != nil
+      if pet[:media][:photos][:photo].is_a? Array # refactor this to escape error
+        attrs[:primary_photo] = pet[:media][:photos][:photo][0]['$t']
+      else
+        attrs[:primary_photo] = pet[:media][:photos][:photo]['$t']
+      end
     end
 
     {attrs: attrs, breeds: breeds}
   end
-  ####
 
   def self.create_or_update_pet(pet) # pet is a hash containing attrs and breeds
     p = Pet.find_by(petfinderid: pet[:attrs][:petfinderid])
     if p == nil
-      # create pet without breed info
-      # create pet_breed(s) with breed id(s)
+      pet[:attrs][:new_pet] = true
       new_pet = Pet.create(pet[:attrs])
       pet[:breeds].each do |breed_id|
         PetBreed.create({pet_id: new_pet.id, breed_id: breed_id})
       end
-  # else
-    # update pet
+    else
+      pet[:attrs][:new_pet] = false
     end
   end
 
@@ -137,12 +106,5 @@ class PetfinderApi
     end
     b.id
   end
-
-  # def self.create_or_update_pet(pet) # Below are the pet attributes available when using the petfinder gem.
-  #   p = Pet.find_by(petfinderid: pet.id)
-  #   if !p
-  #     Pet.create({petfinderid: pet.id, name: pet.name, animal: pet.animal, mix: pet.mix, sex: pet.sex}) #refactor this to iterate over pet attributes?
-  #   end
-  # end
 
 end
