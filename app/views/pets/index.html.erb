@@ -1,0 +1,27 @@
+<div>
+  <ul class="nav navbar-nav navbar-right">
+    <% if user_signed_in? %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hello, <%= current_user.email %>! <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="<%= user_pet_path(current_user) %>">My Favorite Pets</a></li>
+          <li><a href="<%= edit_user_registration_path %>">My Account</a></li>
+        </ul>
+      </li>
+      <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
+    <% else %>
+      <li><%= link_to "Sign In", new_user_session_path %></li>
+    <% end %>
+  </ul>
+</div
+
+<div><%= link_to "For Sophie & Brandon", sophie_path %></div>
+
+<h1>Latest Pets</h1>
+
+<%= render "search_form" %>
+
+<%= render "pet_render", :pets => @pets %>
+<!-- <nav id="page-nav">
+  <a href="../pages/2.html"></a>
+</nav> -->

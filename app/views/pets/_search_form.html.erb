@@ -1,0 +1,63 @@
+<!-- form -->
+<%= form_tag("/results", method: "get") do %>
+  <fieldset>
+    <legend>Filter Results:</legend>
+    <div class="form-group"> <!-- i think this came from bootstrap -->
+    	<% if !@form_unhide %>
+      <div> <!-- breed -->
+        Breed <%= select_tag(:breed, options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.sort.unshift("Any")), :class => "form-control", :id => "select") %>
+      </div>
+      <% end %>
+      <div> <!-- size -->
+        Size
+        <%= check_box_tag(:small, 1, true) %>
+        <%= label_tag(:small, "Small") %>
+        <%= check_box_tag(:medium, 1, true) %>
+        <%= label_tag(:medium, "Medium") %>
+        <%= check_box_tag(:large, 1, true) %>
+        <%= label_tag(:large, "Large") %>
+        <%= check_box_tag(:xlarge, 1, true) %>
+        <%= label_tag(:xlarge, "X-Large") %>
+      </div>
+      <div> <!-- age -->
+        Age
+        <%= check_box_tag(:baby, 1, true) %>
+        <%= label_tag(:baby, "Baby") %>
+        <%= check_box_tag(:young, 1, true) %>
+        <%= label_tag(:young, "Young") %>
+        <%= check_box_tag(:adult, 1, true) %>
+        <%= label_tag(:adult, "Adult") %>
+        <%= check_box_tag(:senior, 1, true) %>
+        <%= label_tag(:senior, "Senior") %>
+      </div>
+      <div> <!-- zip -->
+        <%= label_tag(:zip, "Zip Code") %> <!-- make this required -->
+        <%= text_field_tag(:zip) %>
+      </div>
+      <div> <!-- radius -->
+        <%= label_tag(:radius, "Radius") %>
+        <%= text_field_tag(:radius, 25) %> mi
+      </div>
+      <div> <!-- sex -->
+        Sex
+        <%= check_box_tag(:female, 1, true) %>
+        <%= label_tag(:female, "Female") %>
+        <%= check_box_tag(:male, 1, true) %>
+        <%= label_tag(:male, "Male") %>
+      </div>
+      <div> <!-- created date -->
+        <%= label_tag(:created, "Added in the last") %>
+        <%= text_field_tag(:created, 90) %> days
+      </div>
+      <% if @form_unhide %>
+      <div>
+      	<%= hidden_field_tag(:soph_breeds, true) %>
+      </div>
+      <% end %>
+
+
+      <%= submit_tag("Search", :class => "btn btn-primary") %>
+      <!-- yields search results url: http://localhost:3000/results?utf8=%E2%9C%93&breed=1&small=1&commit=Search -->
+    </div>
+  </fieldset>
+<% end %>

@@ -1,0 +1,16 @@
+<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200, "gutter": 10 }'>
+  <% pets[0..30].each do |pet| %>
+    
+		<div class="grid-item">
+			<a href="https://www.petfinder.com/petdetail/<%= pet.petfinderid %>" class="plain-link" target="_blank" style="text-decoration: none;">
+		  	<p class="custom-left" style="margin-left: 13px"><%= pet.name %></p><%= render "favorite", :pet => pet %>
+		    <% if pet.primary_photo %>
+		      <img src="<%= pet.primary_photo.split('?')[0] %>" width=200>
+		    <% end %>
+		  </a>
+
+		  <p style="font-size: 10px"><% if pet.new_pet %><span style="font-weight: bold;">NEW! </span><% end %>Added on <%= pet.created_at.strftime("%B %d, %Y") %></p>
+		  
+		</div>
+  <% end %>
+</div>

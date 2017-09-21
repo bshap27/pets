@@ -1,0 +1,20 @@
+<div class="custom-right" style="margin: 13px">
+<% if user_signed_in? %>
+  <% if @favorited = current_user.favorited_pet?(pet) %> <!-- already in favorites -->
+    <%= form_for(@favorited, :class => 'btn', :method => :delete) do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:pet_id, :value => pet.id) %>
+      <%= f.button "", class: "fa fa-heart" %>
+    <% end %>
+  <% else %>
+    <%= form_for(UserPet.new, :class => 'btn') do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:pet_id, :value => pet.id) %>
+      <%= f.button "", class: "fa fa-heart-o" %>
+      <%#= fa_icon "heart" %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>Sign in or create an account to save this pup to your favorites.</p>
+<% end %>
+</div>
