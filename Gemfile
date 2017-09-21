@@ -50,4 +50,4 @@ gem 'petfinder', '~> 1.0', '>= 1.0.3'
 gem 'whenever', :require => false
 gem "font-awesome-rails"
 gem 'rails_12factor', group: :production
-ruby "2.1.4"
+ruby "2.2.0"
