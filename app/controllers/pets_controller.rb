@@ -29,7 +29,6 @@ class PetsController < ApplicationController
 
   def results
     query = {}
-    if !["any", nil].include? params["breed"]; query[:breed] = params["breed"] end
     size = []
     if params["small"] != nil; size.push('S') end
     if params["medium"] != nil; size.push('M') end
@@ -48,10 +47,15 @@ class PetsController < ApplicationController
       query[:sex] = "F"
     end
     query[:zip] = DistanceApi.find_zips_in_radius(params["zip"], params["radius"])
-    @pets = Pet.where(query)
-                      .where("created_at >= ?", Time.now - params["created"].to_i.days).limit(10)
+    if !["Any", nil].include? params["breed"]
+      breed = Breed.find(params["breed"])
+    end
+    breed_query = breed ? {:pet_breeds => {:breed_id => breed}} : {}
+    @pets = Pet.joins(:pet_breeds).where(breed_query)
+                      .where(query)
+                      .where("pets.created_at >= ?", Time.now - params["created"].to_i.days).limit(10)
                       .where.not(:primary_photo => nil)
-                      .order(created_at: :desc)
+                      .order("pets.created_at desc")
     @soph_results = params["soph_breeds"]
   end
 
