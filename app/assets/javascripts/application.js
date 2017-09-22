@@ -17,20 +17,12 @@
 
 // masonry
 
-// var elem = document.querySelector('.grid');
-// var msnry = new Masonry( elem, {
-//   itemSelector: '.grid-item',
-//   columnWidth: 200
-// });
-
-// init Masonry
-var $grid = $('.grid').masonry({
-  itemSelector: '.grid-item',
-  columnWidth: 200
-});
-// layout Masonry after each image loads
-$grid.imagesLoaded().progress( function() {
-  // setTimeout() {
-  	$grid.masonry('layout');
-  // }
+$( document ).ready( function(){
+	$('.grid').imagesLoaded( function() {
+		$('.grid').masonry({
+		  itemSelector: '.grid-item',
+		  columnWidth: 200,
+		  gutter: 10
+		});
+	});
 });
