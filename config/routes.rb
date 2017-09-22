@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :user_pets
 
-  get 'my_pets' => 'users#pets'
+  get 'my_pets' => 'pets#my_pets'
   # resources :users
   resources :pets
   get 'results' => 'pets#results'

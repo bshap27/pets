@@ -10,6 +10,14 @@ class PetsController < ApplicationController
   def show
   end
 
+  def my_pets
+    @pets = []
+    my_user_pets = UserPet.where(:user_id => current_user.id).select('pet_id')
+    my_user_pets.each do |up|
+      @pets.push Pet.find(up.pet_id)
+    end
+  end
+
   def sophie
     sql = "SELECT id from pets LEFT OUTER JOIN (
           (SELECT pet_id, breed_id, excluded_breeds.hub_exclude from pet_breeds

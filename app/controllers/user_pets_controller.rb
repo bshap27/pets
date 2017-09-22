@@ -5,22 +5,14 @@ class UserPetsController < ApplicationController
 
     respond_to do |format|
       if @user_pet.save
-        format.html { redirect_to @user_pet, notice: 'Pet breed was successfully created.' }
-        format.json { render :show, status: :created, location: @user_pet }
+        format.html { redirect_to my_pets_path, notice: 'Pet breed was successfully created.' }
+        format.json { render :my_pets, status: :created }
       else
         format.html { render :new }
         format.json { render json: @user_pet.errors, status: :unprocessable_entity }
       end
     end
   end  
-
-  def show
-    @pets = []
-    my_user_pets = UserPet.where(:user_id => current_user.id).select('pet_id')
-    my_user_pets.each do |up|
-      @pets.push Pet.find(up.pet_id)
-    end
-  end
 
   def destroy
     @user_pet = UserPet.find(params[:id])
