@@ -49,9 +49,9 @@ class PetsController < ApplicationController
     if params["adult"] != nil; age.push('adult') end
     if params["senior"] != nil; age.push('senior') end
     if age.length > 0; query[:age] = age end
-    if params["male"] == 1 && params["female"] != '1'
+    if params["male"] == '1' && params["female"] != '1'
       query[:sex] = "M"
-    elsif params["female"] == 1 && params["male"] != '1'
+    elsif params["female"] == '1' && params["male"] != '1'
       query[:sex] = "F"
     end
     query[:zip] = DistanceApi.find_zips_in_radius(params["zip"], params["radius"])
