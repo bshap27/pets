@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Breeds</h1>
+<h1>Breeds</h1>
 
 <table>
   <thead>
@@ -10,16 +10,17 @@
   </thead>
 
   <tbody>
+
+  <% if !user_signed_in? %>
+    <p>Sign in or create an account to save breeds to your favorites.</p>
+  <% end %>
     <% @breeds.each do |breed| %>
       <tr>
-        <td><%= link_to 'Show', breed %></td>
-        <td><%= link_to 'Edit', edit_breed_path(breed) %></td>
-        <td><%= link_to 'Destroy', breed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= breed.name %></td>
+        <td><%= render "favorite", :breed => breed %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Breed', new_breed_path %>
