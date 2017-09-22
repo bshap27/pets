@@ -1,14 +1,14 @@
 require 'open-uri'
 
 class PetfinderGem
-  The below methods are functional for the petfinder gem.
+  # The below methods are functional for the petfinder gem.
 
   def self.authenticate
     Petfinder::Client.new(ENV["PETFINDER_CLIENT_ID"], ENV["PETFINDER_CLIENT_SECRET"])
   end
 
-  options = breed, size, sex, age, offset, count
-  syntax for options: petfinder.find_pets('dog', 10014, :size => 'S')
+  # options = breed, size, sex, age, offset, count
+  # syntax for options: petfinder.find_pets('dog', 10014, :size => 'S')
   def self.find_new_pets(animal_type, location, *options)
     petfinder = self.authenticate
     pets = petfinder.find_pets(animal_type, location, *options)
