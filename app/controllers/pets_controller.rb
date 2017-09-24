@@ -61,7 +61,7 @@ class PetsController < ApplicationController
     breed_query = breed ? {:pet_breeds => {:breed_id => breed}} : {}
     @pets = Pet.joins(:pet_breeds).where(breed_query)
                       .where(query)
-                      .where("pets.created_at >= ?", Time.now - params["created"].to_i.days).limit(10)
+                      .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
                       .where.not(:primary_photo => nil)
                       .order("pets.created_at desc")
     @soph_results = params["soph_breeds"]
