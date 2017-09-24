@@ -2,22 +2,20 @@ class UserPetsController < ApplicationController
 
   def create
     @user_pet = UserPet.new(user_pet_params)
-
-    respond_to do |format|
-      if @user_pet.save
-        format.html { redirect_to my_pets_path, notice: 'Pet breed was successfully created.' }
-        format.json { render :my_pets, status: :created }
-      else
-        format.html { render :new }
-        format.json { render json: @user_pet.errors, status: :unprocessable_entity }
-      end
+    @user_pet.save
+    @pet = Pet.find(user_pet_params["pet_id"])
+    respond_to do |f|
+      f.js { render 'create'}
     end
-  end  
+  end
 
   def destroy
     @user_pet = UserPet.find(params[:id])
     @user_pet.destroy
-    redirect_to :back
+    @pet = Pet.find(params["user_pet"]["pet_id"])
+    respond_to do |f|
+      f.js { render 'destroy' }
+    end
   end
 
   private
