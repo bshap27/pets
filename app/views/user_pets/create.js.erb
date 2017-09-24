@@ -1,4 +1,3 @@
-<% @pet = Pet.find(params["user_pet"]["pet_id"]) %>
 $("#msg_placeholder").html("<div><p>Favorite saved!</p></div>")
 var str = 'form#new_user_pet input[value='+ <%=@pet.id.to_s%> +']'
 jQuery(str).parents('div.create_form').replaceWith("<%= j render(partial: 'destroy', locals: { pet: @pet }) %>")

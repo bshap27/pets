@@ -1,5 +1,5 @@
 <!-- form -->
-<%= form_tag("/results", method: "get") do %>
+<%= form_tag("/results", method: "get", :remote => true) do %>
   <fieldset>
     <legend>Filter Results:</legend>
     <div class="form-group"> <!-- i think this came from bootstrap -->

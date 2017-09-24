@@ -65,6 +65,9 @@ class PetsController < ApplicationController
                       .where.not(:primary_photo => nil)
                       .order("pets.created_at desc")
     @soph_results = params["soph_breeds"]
+    respond_to do |f|
+      f.js {}
+    end
   end
 
   # GET /posts/new

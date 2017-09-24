@@ -17,12 +17,16 @@
 
 // masonry
 
-$( document ).ready( function(){
-	$('.grid').imagesLoaded( function() {
-		$('.grid').masonry({
-		  itemSelector: '.grid-item',
-		  columnWidth: 200,
-		  gutter: 10
+function remasonry(){
+	$( document ).ready( function(){
+		$('.grid').imagesLoaded( function() {
+			$('.grid').masonry({
+			  itemSelector: '.grid-item',
+			  columnWidth: 200,
+			  gutter: 10
+			});
 		});
 	});
-});
+}
+
+remasonry();

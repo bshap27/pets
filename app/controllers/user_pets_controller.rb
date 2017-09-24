@@ -12,7 +12,7 @@ class UserPetsController < ApplicationController
   def destroy
     @user_pet = UserPet.find(params[:id])
     @user_pet.destroy
-    @pet = Pet.find(params["user_pet"]["pet_id"])
+    @pet = Pet.find(user_pet_params["pet_id"])
     respond_to do |f|
       f.js { render 'destroy' }
     end
