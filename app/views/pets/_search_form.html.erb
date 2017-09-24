@@ -4,8 +4,29 @@
     <legend>Filter Results:</legend>
     <div class="form-group"> <!-- i think this came from bootstrap -->
     	<% if !@form_unhide %>
-      <div> <!-- breed -->
-        Breed <%= select_tag(:breed, options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.sort.unshift("Any")), :class => "form-control", :id => "select") %>
+      <div id="breed-single"> <!-- breed -->
+        Breed <%= select_tag(:breed, options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
+        <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
+      </div>
+      <div id="breed-multiple" class='hide'>
+        <!-- 8 columns -->
+        <a href="#" id="deselect_all">Deselect All</a>
+        <a href="#" id="select_all" class="hide">Select All</a>
+        <table>
+        <% @breeds.each_with_index do |breed, index| %>
+          <% if index % 6 == 0 %>
+            <tr>
+          <% end %>
+          <td>
+              <%= check_box_tag(breed.name.parameterize.underscore.to_sym, 1, true, :class => 'breed-checkbox') %>
+              <%= label_tag(breed.name.parameterize.underscore.to_sym, breed.name) %>
+          </td>
+          <% if index % 6 == 5 %>
+            </tr>
+          <% end %>
+        <% end %>
+        </table>
+        <a href="#" id="choose_single_breed">Back to List</a>
       </div>
       <% end %>
       <div> <!-- size -->

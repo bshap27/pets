@@ -39,3 +39,7 @@ a:hover.plain-link {
 .custom-right {
   float: right;
 }
+
+.hide {
+  display: none;
+}

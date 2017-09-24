@@ -4,7 +4,7 @@ class PetsController < ApplicationController
   
   def index
     @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
-    @breeds = Breed.all
+    @breeds = Breed.all.order(:name)
   end
 
   def show
