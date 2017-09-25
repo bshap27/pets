@@ -36,51 +36,45 @@
       </div>
       
       <!-- size -->
-      <div> 
+      <div>
         Size
-        <%= check_box_tag(:small, 1, true) %>
-        <%= label_tag(:small, "Small") %>
-        <%= check_box_tag(:medium, 1, true) %>
-        <%= label_tag(:medium, "Medium") %>
-        <%= check_box_tag(:large, 1, true) %>
-        <%= label_tag(:large, "Large") %>
-        <%= check_box_tag(:xlarge, 1, true) %>
-        <%= label_tag(:xlarge, "X-Large") %>
+        <% sizes = [['S', "Small"], ['M', "Medium"], ['L', "Large"], ['XL', "X-Large"]] %>
+        <% sizes.each do |size| %>
+          <%= check_box_tag('size[]', size[0], false) %>
+          <%= label_tag('size[]', size[1]) %>
+        <% end %>
       </div>
 
       <div> <!-- age -->
         Age
-        <%= check_box_tag(:baby, 1, true) %>
-        <%= label_tag(:baby, "Baby") %>
-        <%= check_box_tag(:young, 1, true) %>
-        <%= label_tag(:young, "Young") %>
-        <%= check_box_tag(:adult, 1, true) %>
-        <%= label_tag(:adult, "Adult") %>
-        <%= check_box_tag(:senior, 1, true) %>
-        <%= label_tag(:senior, "Senior") %>
+        <% ages = ["Baby", "Young", "Adult", "Senior"] %>
+        <% ages.each do |age| %>
+          <%= check_box_tag('age[]', age.downcase, false) %>
+          <%= label_tag('age[]', age) %>
+        <% end %>
       </div>
 
       <div> <!-- zip -->
         <%= label_tag(:zip, "Zip Code") %> <!-- make this required -->
-        <%= text_field_tag(:zip, 10014) %>
+        <%= text_field_tag(:zip, 10014, :required => true) %>
       </div>
 
       <div> <!-- radius -->
         <%= label_tag(:radius, "Radius") %>
-        <%= text_field_tag(:radius, 25) %> mi
+        <%= text_field_tag(:radius, 25, :required => true) %> mi
       </div>
 
       <div> <!-- sex -->
         Sex
-        <%= check_box_tag(:female, 1, true) %>
-        <%= label_tag(:female, "Female") %>
-        <%= check_box_tag(:male, 1, true) %>
-        <%= label_tag(:male, "Male") %>
+        <%= check_box_tag('sex[]', 'F', false) %>
+        <%= label_tag('sex[]', "Female") %>
+        <%= check_box_tag('sex[]', 'M', false) %>
+        <%= label_tag('sex[]', "Male") %>
       </div>
 
       <div> <!-- created date -->
         <%= label_tag(:created, "Added in the last") %>
-        <%= text_field_tag(:created, 90) %> days
+        <%= text_field_tag(:created, 90, :required => true) %> days
       </div>
 
       <% if user_signed_in? %>

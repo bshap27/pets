@@ -20,38 +20,26 @@ class PetsController < ApplicationController
 
   def results    
     query = {}
-    size = []
-    if params["small"] != nil; size.push('S') end
-    if params["medium"] != nil; size.push('M') end
-    if params["large"] != nil; size.push('L') end
-    if params["xlarge"] != nil; size.push('XL') end
-    if size.length > 0; query[:size] = size end
-    age = []
-    if params["baby"] != nil; age.push('baby') end
-    if params["young"] != nil; age.push('young') end
-    if params["adult"] != nil; age.push('adult') end
-    if params["senior"] != nil; age.push('senior') end
-    if age.length > 0; query[:age] = age end
-    if params["male"] == '1' && params["female"] != '1'
-      query[:sex] = "M"
-    elsif params["female"] == '1' && params["male"] != '1'
-      query[:sex] = "F"
-    end
+    query[:size] = params["size"] if params["size"]
+    query[:age] = params["age"] if params["age"]
+    query[:sex] = params["sex"] if params["sex"]
     query[:zip] = DistanceApi.find_zips_in_radius(params["zip"], params["radius"])
 
-    # BREEDS
+    # breeds
     if params["breed_ids"].include?("Any")
       breed_query = {}
     else
       list = '(' + params['breed_ids'].join(',') + ')'
       breed_query = "pet_breeds.breed_id in #{list}"
     end
-    # Create Query
-    @pets = Pet.joins(:pet_breeds).where(breed_query)
-                      .where(query)
-                      .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
-                      .where.not(:primary_photo => nil)
-                      .order("pets.created_at desc")
+
+    # generate query
+    @pets = Pet.joins(:pet_breeds)
+               .where(breed_query)
+               .where(query)
+               .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
+               .where.not(:primary_photo => nil)
+               .order("pets.created_at desc")
 
     if params["save_selections"]
       User.save_selections(params)
