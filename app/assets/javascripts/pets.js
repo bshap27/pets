@@ -1,53 +1,53 @@
 // toggle breed picker
 $( document ).ready( function(){
+
 	$('#choose_multiple_breeds, #choose_single_breed').on('click', function(){
 		$('#breed-single').toggleClass('hide');
 		$('#breed-multiple').toggleClass('hide');
-	});
-
-	$('#choose_multiple_breeds').on('click', function(){
-		jQuery('select[name="breed_ids[]"]').val(null);
-	});
-
-	$('#choose_single_breed').on('click', function(){
-		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
-		   this.checked = false;
-		});
+		switch (this.id){
+			case 'choose_single_breed':
+				uncheckAllBreeds();
+				break;
+			case 'choose_multiple_breeds':
+				nullifyBrandSelect();
+				break;
+		}
 	});
 
 	$('.soph_breeds').on('click', function(){
-		if ($('#breed-single').attr('class') != 'hide') {
-			$('#breed-single').toggleClass('hide');
-		}
-		if ($('#breed-multiple').attr('class') == 'hide') {
-			$('#breed-multiple').toggleClass('hide');
-		}
-		jQuery('select[name="breed_ids[]"]').val(null);
-
-		checkSophBreeds();
+		selectSophBreeds();
 	});
 
-	function checkSophBreeds(){
+	function selectSophBreeds(){
+		$('#breed-single').addClass('hide');
+		$('#breed-multiple').removeClass('hide');
+		nullifyBrandSelect();
 		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
-			if ($(this).attr('class').split(' ').includes('soph-ok')) {
-				this.checked = true;
-			} else {
-				this.checked = false;
-			}
-		});		
+			this.checked = $(this).attr('class').split(' ').includes('soph-ok');
+		});
+	}
+
+	function uncheckAllBreeds() {
+		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
+		   this.checked = false;
+		});
+	}
+
+	function nullifyBrandSelect(){
+		jQuery('select[name="breed_ids[]"]').val(null);
 	}
 
 	$('#deselect_all, #select_all').on('click', function(){
-		if (this.id == 'deselect_all'){
-			var check = false;
-		} else if (this.id == 'select_all') {
-			var check = true;
-		}
+		toggleChecks(this);
+	});
+
+	function toggleChecks(clicked){
+		var check = clicked.id == 'select_all';
 		$('#deselect_all').toggleClass('hide');
 		$('#select_all').toggleClass('hide');
 		$('input[type="checkbox"].breed-checkbox').each(function() {
 		   this.checked = check;
 		});
-	});
+	};
 
 });
