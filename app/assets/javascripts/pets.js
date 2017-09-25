@@ -1,6 +1,10 @@
 // toggle breed picker
 $( document ).ready( function(){
 
+	$("#remasonry").on('click', function(){
+		$('.grid').masonry();
+	});
+
 	$('#choose_multiple_breeds, #choose_single_breed').on('click', function(){
 		$('#breed-single').toggleClass('hide');
 		$('#breed-multiple').toggleClass('hide');
