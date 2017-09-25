@@ -11,10 +11,17 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require_tree ../../../vendor/assets/stylesheets/.
  *= require_self
  *= require font-awesome
  */
 
+@import "bootstrap";
+/* Some Style from the Bootstrap Default Theme */
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
 
 /* MASONRY */
 
