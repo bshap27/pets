@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'thin'
 gem 'pry'
 gem 'devise'
 gem 'rails', '4.2.0'
