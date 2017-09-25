@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :pets
   get 'my_pets' => 'pets#my_pets'
   get 'results' => 'pets#results'
-  get 'sophie' => 'pets#sophie'
 
   root 'pets#index'
   # The priority is based upon order of creation: first created -> highest priority.

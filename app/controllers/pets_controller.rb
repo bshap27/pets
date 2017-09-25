@@ -18,24 +18,7 @@ class PetsController < ApplicationController
     end
   end
 
-  def sophie
-    sql = "SELECT id from pets LEFT OUTER JOIN (
-          (SELECT pet_id, breed_id, excluded_breeds.hub_exclude from pet_breeds
-          JOIN  
-           (SELECT id, hub_exclude from breeds where hub_exclude IS NOT NULL) excluded_breeds
-            ON pet_breeds.breed_id = excluded_breeds.id)) breeds_and_exclusions
-          ON pets.id = breeds_and_exclusions.pet_id
-          WHERE breeds_and_exclusions.hub_exclude IS NULL
-          ORDER BY created_at DESC"
-    # exclude_pets = Pet.joins(:breeds).where(breeds: { hub_exclude: true })
-    # all_pets = Pet.where.not(pets: { primary_photo: nil }).order('created_at desc').limit(10)
-    # @pets = all_pets.select { |pet| !exclude_pets.include? pet }
-    result = execute_statement(sql)
-    @pets = result.collect { |hash| Pet.find(hash["id"]) }
-    @form_unhide = true
-  end
-
-  def results
+  def results    
     query = {}
     size = []
     if params["small"] != nil; size.push('S') end
@@ -55,6 +38,7 @@ class PetsController < ApplicationController
       query[:sex] = "F"
     end
     query[:zip] = DistanceApi.find_zips_in_radius(params["zip"], params["radius"])
+
     # BREEDS
     if params["breed_ids"].include?("Any")
       breed_query = {}
@@ -62,12 +46,12 @@ class PetsController < ApplicationController
       list = '(' + params['breed_ids'].join(',') + ')'
       breed_query = "pet_breeds.breed_id in #{list}"
     end
+    # Create Query
     @pets = Pet.joins(:pet_breeds).where(breed_query)
                       .where(query)
                       .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
                       .where.not(:primary_photo => nil)
                       .order("pets.created_at desc")
-    @soph_results = params["soph_breeds"]
 
     if params["save_selections"]
       User.save_selections(params)

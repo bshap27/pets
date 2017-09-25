@@ -6,8 +6,6 @@ $( document ).ready( function(){
 	});
 
 	$('#choose_multiple_breeds').on('click', function(){
-		// update select within <div id="breed-single"> to nil
-		// jQuery('select[name="breed"] option:selected')
 		jQuery('select[name="breed_ids[]"]').val(null);
 	});
 
@@ -16,6 +14,28 @@ $( document ).ready( function(){
 		   this.checked = false;
 		});
 	});
+
+	$('.soph_breeds').on('click', function(){
+		if ($('#breed-single').attr('class') != 'hide') {
+			$('#breed-single').toggleClass('hide');
+		}
+		if ($('#breed-multiple').attr('class') == 'hide') {
+			$('#breed-multiple').toggleClass('hide');
+		}
+		jQuery('select[name="breed_ids[]"]').val(null);
+
+		checkSophBreeds();
+	});
+
+	function checkSophBreeds(){
+		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
+			if ($(this).attr('class').split(' ').includes('soph-ok')) {
+				this.checked = true;
+			} else {
+				this.checked = false;
+			}
+		});		
+	}
 
 	$('#deselect_all, #select_all').on('click', function(){
 		if (this.id == 'deselect_all'){

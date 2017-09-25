@@ -4,43 +4,37 @@
     <div class="form-group">
 
       <!-- breed -->
-    	<% if !@form_unhide %> 
-        <div id="breed-single"> 
-          Breed <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
-          <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
-        </div>
+      <div id="breed-single"> 
+        Breed <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
+        <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
+        <a href="#" class="soph_breeds">Soph Brandon Breeds</a>
+      </div>
 
-        <div id="breed-multiple" class='hide'>
-          <a href="#" id="deselect_all" class="hide">Deselect All</a>
-          <a href="#" id="select_all">Select All</a>
-          <a href="#" id="choose_single_breed" class="custom-right">Back to List</a>
+      <div id="breed-multiple" class='hide'>
+        <a href="#" id="deselect_all" class="hide">Deselect All</a>
+        <a href="#" id="select_all">Select All</a>
+        <a href="#" class="soph_breeds">Reset Soph Brandon Breeds</a>
+        <a href="#" id="choose_single_breed" class="custom-right">Back to List</a>
 
-          <% breed_count = @breeds.count %>
-          <% breed_table = @breeds.each_slice((breed_count/5.0).ceil).to_a %>
-          <table>
-            <tr>
-            <% breed_table.each do |ary| %>
-              <td valign="top">
-              <% ary.each_with_index do |breed, index| %>
-              <p style="margin: 2px">
-                <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox') %>
-                <%= label_tag('breed_ids[]', breed.name) %>
-              </p>
-              <% end %>
-              </td>
+        <% breed_count = @breeds.count %>
+        <% breed_table = @breeds.each_slice((breed_count/5.0).ceil).to_a %>
+        <table>
+          <tr>
+          <% breed_table.each do |ary| %>
+            <td valign="top">
+            <% ary.each_with_index do |breed, index| %>
+            <p style="margin: 2px">
+              <% if breed.hub_exclude then ckbox_class = 'hub-exclude' else ckbox_class = 'soph-ok' end %>
+              <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox ' + ckbox_class) %>
+              <%= label_tag('breed_ids[]', breed.name) %>
+            </p>
             <% end %>
-            </tr>
-          </table>
-
-        </div>
-      <% else %> <!-- soph breeds -->
-        <div>
-          <%= hidden_field_tag(:soph_breeds, true) %>
-        </div>
-      <% end %>
+            </td>
+          <% end %>
+          </tr>
+        </table>
+      </div>
       
-      <% end %>
-
       <!-- size -->
       <div> 
         Size
@@ -93,7 +87,7 @@
         <%= check_box_tag(:save_selections, 1, true) %>
         <%= label_tag(:save_selections, "Save Selections") %>
       <% end %>
-      
+
       <%= submit_tag("Search", :class => "btn btn-primary") %>
     </div>
   </fieldset>
