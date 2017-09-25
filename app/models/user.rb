@@ -16,5 +16,9 @@ class User < ActiveRecord::Base
   def favorited_breed?(breed)
     UserBreed.find_by(user_id: self.id, breed_id: breed.id)
   end
+
+  def self.save_selections(selections)
+    # current_user.update(:selections => selections)
+  end
   
 end

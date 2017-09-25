@@ -1,35 +1,48 @@
-<!-- form -->
 <%= form_tag("/results", method: "get", :remote => true) do %>
   <fieldset>
     <legend>Filter Results:</legend>
-    <div class="form-group"> <!-- i think this came from bootstrap -->
-    	<% if !@form_unhide %>
-      <div id="breed-single"> <!-- breed -->
-        Breed <%= select_tag(:breed, options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
-        <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
-      </div>
-      <div id="breed-multiple" class='hide'>
-        <!-- 8 columns -->
-        <a href="#" id="deselect_all">Deselect All</a>
-        <a href="#" id="select_all" class="hide">Select All</a>
-        <table>
-        <% @breeds.each_with_index do |breed, index| %>
-          <% if index % 6 == 0 %>
+    <div class="form-group">
+
+      <!-- breed -->
+    	<% if !@form_unhide %> 
+        <div id="breed-single"> 
+          Breed <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
+          <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
+        </div>
+
+        <div id="breed-multiple" class='hide'>
+          <a href="#" id="deselect_all" class="hide">Deselect All</a>
+          <a href="#" id="select_all">Select All</a>
+          <a href="#" id="choose_single_breed" class="custom-right">Back to List</a>
+
+          <% breed_count = @breeds.count %>
+          <% breed_table = @breeds.each_slice((breed_count/5.0).ceil).to_a %>
+          <table>
             <tr>
-          <% end %>
-          <td>
-              <%= check_box_tag(breed.name.parameterize.underscore.to_sym, 1, true, :class => 'breed-checkbox') %>
-              <%= label_tag(breed.name.parameterize.underscore.to_sym, breed.name) %>
-          </td>
-          <% if index % 6 == 5 %>
+            <% breed_table.each do |ary| %>
+              <td valign="top">
+              <% ary.each_with_index do |breed, index| %>
+              <p style="margin: 2px">
+                <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox') %>
+                <%= label_tag('breed_ids[]', breed.name) %>
+              </p>
+              <% end %>
+              </td>
+            <% end %>
             </tr>
-          <% end %>
-        <% end %>
-        </table>
-        <a href="#" id="choose_single_breed">Back to List</a>
-      </div>
+          </table>
+
+        </div>
+      <% else %> <!-- soph breeds -->
+        <div>
+          <%= hidden_field_tag(:soph_breeds, true) %>
+        </div>
       <% end %>
-      <div> <!-- size -->
+      
+      <% end %>
+
+      <!-- size -->
+      <div> 
         Size
         <%= check_box_tag(:small, 1, true) %>
         <%= label_tag(:small, "Small") %>
@@ -40,6 +53,7 @@
         <%= check_box_tag(:xlarge, 1, true) %>
         <%= label_tag(:xlarge, "X-Large") %>
       </div>
+
       <div> <!-- age -->
         Age
         <%= check_box_tag(:baby, 1, true) %>
@@ -51,14 +65,17 @@
         <%= check_box_tag(:senior, 1, true) %>
         <%= label_tag(:senior, "Senior") %>
       </div>
+
       <div> <!-- zip -->
         <%= label_tag(:zip, "Zip Code") %> <!-- make this required -->
         <%= text_field_tag(:zip, 10014) %>
       </div>
+
       <div> <!-- radius -->
         <%= label_tag(:radius, "Radius") %>
         <%= text_field_tag(:radius, 25) %> mi
       </div>
+
       <div> <!-- sex -->
         Sex
         <%= check_box_tag(:female, 1, true) %>
@@ -66,19 +83,18 @@
         <%= check_box_tag(:male, 1, true) %>
         <%= label_tag(:male, "Male") %>
       </div>
+
       <div> <!-- created date -->
         <%= label_tag(:created, "Added in the last") %>
         <%= text_field_tag(:created, 90) %> days
       </div>
-      <% if @form_unhide %>
-      <div>
-      	<%= hidden_field_tag(:soph_breeds, true) %>
-      </div>
+
+      <% if user_signed_in? %>
+        <%= check_box_tag(:save_selections, 1, true) %>
+        <%= label_tag(:save_selections, "Save Selections") %>
       <% end %>
-
-
+      
       <%= submit_tag("Search", :class => "btn btn-primary") %>
-      <!-- yields search results url: http://localhost:3000/results?utf8=%E2%9C%93&breed=1&small=1&commit=Search -->
     </div>
   </fieldset>
 <% end %>
