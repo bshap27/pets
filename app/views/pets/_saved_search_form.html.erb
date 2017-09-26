@@ -1,0 +1,20 @@
+<% if @searches %>
+	<%= form_tag("/results", method: "get", :remote => true, :class => "form-horizontal") do %>
+	  <fieldset>
+	    <div class="form-group">
+	      <!-- breed -->
+	      <div id="breed-single"> 
+	        <%= label_tag(:search, "Saved Searches", :class => 'col-lg-2 control-label') %>
+	        <div class="col-lg-8">
+	          <%= select_tag(:search, options_for_select(@searches), :class => "form-control", :id => "saved_searches", :include_blank => true) %>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <%= submit_tag("Search", :class => "btn btn-info custom-right") %>
+	    </div>
+
+	  </fieldset>
+	<% end %>
+<% end%>

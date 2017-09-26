@@ -66,6 +66,11 @@ $( document ).ready( function(){
 		uncheckAllBreeds();
 	});
 
+	$('#saved_searches').on('change', function(){
+		var deactivate_form = $(this).children('option:selected').attr('value') != '';
+		$("#search-form input, #search-form checkbox, #search-form select").prop('disabled', deactivate_form);
+	});
+
 	$('#save-search-checkbox').on('click', function(){
 			$('#search-name').toggleClass('hide');
 	});

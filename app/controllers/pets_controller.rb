@@ -5,6 +5,7 @@ class PetsController < ApplicationController
   def index
     @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
     @breeds = Breed.all.order(:name)
+    @searches = UserSearch.where(:user_id => current_user.id).collect {|search| [search.name, search.search]}
   end
 
   def show
