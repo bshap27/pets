@@ -18,31 +18,10 @@ class PetsController < ApplicationController
     end
   end
 
-  def results    
-    query = {}
-    query[:size] = params["size"] if params["size"]
-    query[:age] = params["age"] if params["age"]
-    query[:sex] = params["sex"] if params["sex"]
-    query[:zip] = DistanceApi.find_zips_in_radius(params["zip"], params["radius"])
-
-    # breeds
-    if params["breed_ids"].include?("Any")
-      breed_query = {}
-    else
-      list = '(' + params['breed_ids'].join(',') + ')'
-      breed_query = "pet_breeds.breed_id in #{list}"
-    end
-
-    # generate query
-    @pets = Pet.joins(:pet_breeds)
-               .where(breed_query)
-               .where(query)
-               .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
-               .where.not(:primary_photo => nil)
-               .order("pets.created_at desc")
-
+  def results
+    @pets = Search.create_query(params)
     if params["save_selections"]
-      User.save_selections(params)
+      User.save_search(params)
     end
     respond_to do |f|
       f.js {}

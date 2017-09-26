@@ -47,6 +47,7 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rb-readline'
 gem 'figaro'
 gem 'petfinder', '~> 1.0', '>= 1.0.3'

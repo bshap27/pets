@@ -1,32 +1,50 @@
-<%= form_tag("/results", method: "get", :remote => true) do %>
+<%= form_tag("/results", method: "get", :remote => true, :class => "form-horizontal") do %>
   <fieldset>
-    <legend>Filter Results:</legend>
+    <legend>Find Pets</legend>
+    <div class="flex-container">
+  <div class="flex-item">
     <div class="form-group">
-
       <!-- breed -->
       <div id="breed-single"> 
-        Breed <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
-        <a href="#" id="choose_multiple_breeds">Choose Multiple</a>
-        <a href="#" class="soph_breeds">Soph Brandon Breeds</a>
+        <%= label_tag('breed_ids[]', Breed, :class => 'col-lg-2 control-label') %>
+        <div class="col-lg-8">
+          <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "breed_select") %>
+          <div class="custom-right">
+            <a href="#" id="choose_multiple_breeds" data-toggle="modal" data-target="#breedModal">Choose Multiple</a>
+            <span> &#8226; </span>
+            <a href="#" class="soph_breeds" data-toggle="modal" data-target="#breedModal">Soph Brandon Breeds</a>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div id="breed-multiple" class='hide'>
+    <!-- MULTIPLE BREED MODAL -->
+
+<div class="modal" id="breedModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">All Breeds</h4>
+      </div>
+      <div class="modal-body">
+        
         <a href="#" id="deselect_all" class="hide">Deselect All</a>
-        <a href="#" id="select_all">Select All</a>
-        <a href="#" class="soph_breeds">Reset Soph Brandon Breeds</a>
-        <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a>
+        <a href="#" id="select_all">Select All</a> &#8226;
+        <a href="#" class="soph_breeds">Soph & Brandon Breeds</a>
+        <!-- <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a> -->
 
         <% breed_count = @breeds.count %>
-        <% breed_table = @breeds.each_slice((breed_count/5.0).ceil).to_a %>
+        <% breed_table = @breeds.each_slice((breed_count/4.0).ceil).to_a %>
         <table>
           <tr>
           <% breed_table.each do |ary| %>
-            <td valign="top">
+            <td valign="top" width="240">
             <% ary.each_with_index do |breed, index| %>
-            <p style="margin: 2px">
+            <p style="margin: -1px">
               <% if breed.hub_exclude then ckbox_class = 'hub-exclude' else ckbox_class = 'soph-ok' end %>
               <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox ' + ckbox_class) %>
-              <%= label_tag('breed_ids[]', breed.name) %>
+              <%= label_tag('breed_ids[]', breed.name, :class => 'breed-list') %>
             </p>
             <% end %>
             </td>
@@ -34,55 +52,90 @@
           </tr>
         </table>
       </div>
-      
-      <!-- size -->
-      <div>
-        Size
-        <% sizes = [['S', "Small"], ['M', "Medium"], ['L', "Large"], ['XL', "X-Large"]] %>
-        <% sizes.each do |size| %>
-          <%= check_box_tag('size[]', size[0], false) %>
-          <%= label_tag('size[]', size[1]) %>
-        <% end %>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="save-multiple" class="btn btn-primary btn-info" data-dismiss="modal">Save changes</button>
       </div>
-
-      <div> <!-- age -->
-        Age
-        <% ages = ["Baby", "Young", "Adult", "Senior"] %>
-        <% ages.each do |age| %>
-          <%= check_box_tag('age[]', age.downcase, false) %>
-          <%= label_tag('age[]', age) %>
-        <% end %>
-      </div>
-
-      <div> <!-- zip -->
-        <%= label_tag(:zip, "Zip Code") %> <!-- make this required -->
-        <%= text_field_tag(:zip, 10014, :required => true) %>
-      </div>
-
-      <div> <!-- radius -->
-        <%= label_tag(:radius, "Radius") %>
-        <%= text_field_tag(:radius, 25, :required => true) %> mi
-      </div>
-
-      <div> <!-- sex -->
-        Sex
-        <%= check_box_tag('sex[]', 'F', false) %>
-        <%= label_tag('sex[]', "Female") %>
-        <%= check_box_tag('sex[]', 'M', false) %>
-        <%= label_tag('sex[]', "Male") %>
-      </div>
-
-      <div> <!-- created date -->
-        <%= label_tag(:created, "Added in the last") %>
-        <%= text_field_tag(:created, 90, :required => true) %> days
-      </div>
-
-      <% if user_signed_in? %>
-        <%= check_box_tag(:save_selections, 1, true) %>
-        <%= label_tag(:save_selections, "Save Selections") %>
-      <% end %>
-
-      <%= submit_tag("Search", :class => "btn btn-primary") %>
     </div>
+  </div>
+</div>
+
+    <!-- END MODAL -->
+      
+    <div class="form-group"><!-- size -->
+      <label class="col-lg-2 control-label">Size</label>
+      <div class="col-lg-8 checkbox">
+      <% sizes = [['S', "Small"], ['M', "Medium"], ['L', "Large"], ['XL', "X-Large"]] %>
+      <% sizes.each do |size| %>
+        <label class="checkbox-spacing">
+          <%= check_box_tag('size[]', size[0], false) %><%= size[1] %>
+        </label>
+      <% end %>
+      </div>
+    </div>
+
+    <div class="form-group"><!-- age -->
+      <label class="col-lg-2 control-label">Age</label>
+      <div class="col-lg-8 checkbox">
+      <% ages = ["Baby", "Young", "Adult", "Senior"] %>
+      <% ages.each do |age| %>
+        <label class="checkbox-spacing">
+          <%= check_box_tag('age[]', age.downcase, false) %><%= age %>
+        </label>
+      <% end %>
+      </div>
+    </div>
+
+    <div class="form-group"> <!-- sex -->
+      <label class="col-lg-2 control-label">Sex</label>
+      <div class="col-lg-8 checkbox">
+        <label class="checkbox-spacing"><%= check_box_tag('sex[]', 'F', false) %>Female</label>
+        <label class="checkbox-spacing"><%= check_box_tag('sex[]', 'M', false) %>Male</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="flex-item">
+
+    <div class="form-group"> <!-- zip -->
+      <%= label_tag(:zip, "Zip Code", :class => 'col-lg-4 control-label') %>
+      <div class="col-lg-8">
+        <%= text_field_tag(:zip, 10014, :required => true, :class => "form-control") %>
+      </div>
+    </div>
+
+    <div class="form-group"> <!-- radius -->
+      <%= label_tag(:radius, "Radius", :class => "col-lg-4 control-label") %>
+      <div class="col-lg-7">
+        <%= text_field_tag(:radius, 25, :required => true, :class => "form-control") %>
+      </div>
+      <div class="follow-text">mi</div>
+    </div>
+
+    <div class="form-group"> <!-- created date -->
+      <%= label_tag(:created, "Added in the last", :class => "col-lg-4 control-label") %>
+      <div class="col-lg-7">
+        <%= text_field_tag(:created, 90, :required => true, :class => "form-control") %>
+      </div>
+      <div class="follow-text">days</div>
+    </div>
+
+    <% if user_signed_in? %>
+      <div class="form-group">
+        <%= label_tag(:save_selections, "Save this search", :class => "col-lg-4 control-label") %>
+        <div class="col-lg-1 checkbox">
+          <label><%= check_box_tag(:save_selections, 1, false, :id => 'save-search-checkbox') %></label>
+        </div>
+        <div class="col-lg-6 hide" id='search-name'>
+          <%= text_field_tag(:search_name, "my search", :class => "form-control") %>
+        </div>
+      </div>
+    <% end %>
+    <div class="form-group">
+      <%= submit_tag("Search", :class => "btn btn-info custom-right") %>
+    </div>
+  </div>
+</div>
+
   </fieldset>
 <% end %>
