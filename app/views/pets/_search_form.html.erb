@@ -8,32 +8,43 @@
       <div id="breed-single"> 
         <%= label_tag('breed_ids[]', Breed, :class => 'col-lg-2 control-label') %>
         <div class="col-lg-8">
-          <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "select") %>
+          <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "breed_select") %>
           <div class="custom-right">
-            <a href="#" id="choose_multiple_breeds">Choose Multiple</a><span> &#8226; </span><a href="#" class="soph_breeds">Soph Brandon Breeds</a>
+            <a href="#" id="choose_multiple_breeds" data-toggle="modal" data-target="#breedModal">Choose Multiple</a>
+            <span> &#8226; </span>
+            <a href="#" class="soph_breeds" data-toggle="modal" data-target="#breedModal">Soph Brandon Breeds</a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <div id="breed-multiple" class='hide'>
+    <!-- MULTIPLE BREED MODAL -->
+
+<div class="modal" id="breedModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">All Breeds</h4>
+      </div>
+      <div class="modal-body">
+        
         <a href="#" id="deselect_all" class="hide">Deselect All</a>
-        <a href="#" id="select_all">Select All</a>
-        <a href="#" class="soph_breeds">Reset Soph Brandon Breeds</a>
-        <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a>
+        <a href="#" id="select_all">Select All</a> &#8226;
+        <a href="#" class="soph_breeds">Soph & Brandon Breeds</a>
+        <!-- <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a> -->
 
         <% breed_count = @breeds.count %>
-        <% breed_table = @breeds.each_slice((breed_count/5.0).ceil).to_a %>
+        <% breed_table = @breeds.each_slice((breed_count/4.0).ceil).to_a %>
         <table>
           <tr>
           <% breed_table.each do |ary| %>
-            <td valign="top">
+            <td valign="top" width="240">
             <% ary.each_with_index do |breed, index| %>
-            <p style="margin: 2px">
+            <p style="margin: -1px">
               <% if breed.hub_exclude then ckbox_class = 'hub-exclude' else ckbox_class = 'soph-ok' end %>
               <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox ' + ckbox_class) %>
-              <%= label_tag('breed_ids[]', breed.name) %>
+              <%= label_tag('breed_ids[]', breed.name, :class => 'breed-list') %>
             </p>
             <% end %>
             </td>
@@ -41,7 +52,15 @@
           </tr>
         </table>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="save-multiple" class="btn btn-primary btn-info" data-dismiss="modal">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
+
+    <!-- END MODAL -->
       
     <div class="form-group"><!-- size -->
       <label class="col-lg-2 control-label">Size</label>
@@ -103,16 +122,18 @@
 
     <% if user_signed_in? %>
       <div class="form-group">
-        <%= label_tag(:save_selections, "Save Selections", :class => "col-lg-4 control-label") %>
-        <div class="col-lg-8 checkbox">
-          <label><%= check_box_tag(:save_selections, 1, true) %></label><%= submit_tag("Search", :class => "btn btn-info custom-right") %>
+        <%= label_tag(:save_selections, "Save this search", :class => "col-lg-4 control-label") %>
+        <div class="col-lg-1 checkbox">
+          <label><%= check_box_tag(:save_selections, 1, false, :id => 'save-search-checkbox') %></label>
+        </div>
+        <div class="col-lg-6 hide" id='search-name'>
+          <%= text_field_tag(:search_name, "my search", :class => "form-control") %>
         </div>
       </div>
-    <% else %>
-      <div class="form-group">
-        <%= submit_tag("Search", :class => "btn btn-info custom-right") %>
-      </div>
     <% end %>
+    <div class="form-group">
+      <%= submit_tag("Search", :class => "btn btn-info custom-right") %>
+    </div>
   </div>
 </div>
 

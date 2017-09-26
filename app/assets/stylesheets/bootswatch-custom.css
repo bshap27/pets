@@ -97,30 +97,12 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 
 .follow-text {
   position: relative;
-  display: block;
+  display: inline-block;
 }
 
 .checkbox-spacing {
   padding-right: 10px;
 }
-
-.inline-block-left {
-  display:inline-block;
-  width: 500px;
-  margin-right: 20px;
-}
-.inline-block-right {
-  display:inline-block;
-  width: 500px;
-}
-.submit-right {
-  display:inline-block;
-  width: 100px;
-}
-.block {
-  display:block !important;
-}
-
 
 
 .flex-container {
@@ -141,4 +123,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   align-self: flex-start;
   width: 100px;
   margin-left: 20px;
+}
+
+.breed-list {
+  font-family: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+  font-size: 13px;
 }

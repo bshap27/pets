@@ -5,40 +5,43 @@ $( document ).ready( function(){
 		$('.grid').masonry();
 	});
 
-	$('#choose_multiple_breeds, #choose_single_breed').on('click', function(){
-		$('#breed-single').toggleClass('hide');
-		$('#breed-multiple').toggleClass('hide');
-		switch (this.id){
-			case 'choose_single_breed':
-				uncheckAllBreeds();
-				break;
-			case 'choose_multiple_breeds':
-				nullifyBrandSelect();
-				break;
-		}
-	});
+	// $('#choose_multiple_breeds, #choose_single_breed').on('click', function(){
+	// 	$('#breed-single').toggleClass('hide');
+	// 	$('#breed-multiple').toggleClass('hide');
+	// 	switch (this.id){
+	// 		case 'choose_single_breed':
+	// 			uncheckAllBreeds();
+	// 			break;
+	// 		case 'choose_multiple_breeds':
+	// 			nullifyBreedSelect();
+	// 			break;
+	// 	}
+	// });
 
 	$('.soph_breeds').on('click', function(){
 		selectSophBreeds();
 	});
 
 	function selectSophBreeds(){
-		$('#breed-single').addClass('hide');
-		$('#breed-multiple').removeClass('hide');
-		nullifyBrandSelect();
-		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
+		$('.breed-checkbox').each(function() {
 			this.checked = $(this).attr('class').split(' ').includes('soph-ok');
 		});
 	}
 
 	function uncheckAllBreeds() {
-		$('#breed-multiple input[type="checkbox"].breed-checkbox').each(function() {
+		$('.breed-checkbox').each(function() {
 		   this.checked = false;
 		});
 	}
 
-	function nullifyBrandSelect(){
-		jQuery('select[name="breed_ids[]"]').val(null);
+	function nullifyBreedSelect(){
+		if ($('#breed_select option').last().val() != "Multiple Selected") {
+			$('#breed_select').append($('<option>', {
+	    	value: null,
+	    	text: 'Multiple Selected'
+			}));
+		}
+		$('#breed_select').val('Multiple Selected');
 	}
 
 	$('#deselect_all, #select_all').on('click', function(){
@@ -53,5 +56,18 @@ $( document ).ready( function(){
 		   this.checked = check;
 		});
 	};
+
+
+	$("#save-multiple").on('click', function(){
+		nullifyBreedSelect();
+	});
+
+	$('#breed_select').on('change', function(){
+		uncheckAllBreeds();
+	});
+
+	$('#save-search-checkbox').on('click', function(){
+			$('#search-name').toggleClass('hide');
+	});
 
 });

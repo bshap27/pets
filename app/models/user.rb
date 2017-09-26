@@ -17,8 +17,11 @@ class User < ActiveRecord::Base
     UserBreed.find_by(user_id: self.id, breed_id: breed.id)
   end
 
-  def self.save_selections(selections)
-    # current_user.update(:selections => selections)
+  def self.save_search(params)
+    search_name = params["search_name"]
+    selections = params.to_s
+    # UserSearches.new(:search_name => search_name, :selections => selections)
+    # to un-string the hash, use eval(selections)
   end
   
 end
