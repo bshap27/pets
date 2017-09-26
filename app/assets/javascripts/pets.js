@@ -68,7 +68,7 @@ $( document ).ready( function(){
 
 	$('#saved_searches').on('change', function(){
 		var deactivate_form = $(this).children('option:selected').attr('value') != '';
-		$("#search-form input, #search-form checkbox, #search-form select").prop('disabled', deactivate_form);
+		$("#search-form input, #search-form checkbox, #search-form select, #choose_multiple_breeds, .soph_breeds").prop('disabled', deactivate_form);
 	});
 
 	$('#save-search-checkbox').on('click', function(){
