@@ -21,7 +21,7 @@ class PetsController < ApplicationController
   def results
     @pets = Search.create_query(params)
     if params["save_selections"]
-      User.save_search(params)
+      Search.save_search(current_user, params)
     end
     respond_to do |f|
       f.js {}

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :pets, through: :user_pets
   has_many :breeds, through: :user_breeds
+  has_many :user_searches
 
   def favorite
   end
@@ -15,13 +16,6 @@ class User < ActiveRecord::Base
 
   def favorited_breed?(breed)
     UserBreed.find_by(user_id: self.id, breed_id: breed.id)
-  end
-
-  def self.save_search(params)
-    search_name = params["search_name"]
-    selections = params.to_s
-    # UserSearches.new(:search_name => search_name, :selections => selections)
-    # to un-string the hash, use eval(selections)
   end
   
 end

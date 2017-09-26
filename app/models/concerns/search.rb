@@ -29,4 +29,11 @@ class Search
        .order("pets.created_at desc").uniq
   end
 
+  def self.save_search(user, params)
+    search_name = params["search_name"]
+    selections = params.to_s
+    UserSearch.create(:user_id => user.id, :name => search_name, :search => selections)
+    # to un-string the hash, use eval(selections)
+  end
+
 end
