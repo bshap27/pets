@@ -1,0 +1,95 @@
+
+// $('#favorite_heart').replace(:partial => "favorite")
+// page.replace $('#favorite_heart'), :partial => "favorite"
+
+// $("#favorite_heart").replace("<%= partial => 'favorite' %>")
+// $('#favorite_heart').replaceWith('<%= partial => "favorite" %>')
+
+// $('#favorite_heart').html("<%= escape_javascript(render( :partial => "favorite")).html_safe %>");
+
+
+WORKING:
+$("#pet-render").replaceWith("<%= j render :partial => 'pets/pet_render' %>")
+
+user_pets.js
+$(function(){
+	favoriteListener();
+});
+
+function favoriteListener(){
+	$('.fa-heart, .fa-heart-o').on("click", changeHeart);
+}
+
+function changeHeart(e){
+	// e.preventDefault();
+	$(this).toggleClass("fa-heart-o").toggleClass("fa-heart");
+	// debugger
+	$(this.parentElement).toggleClass('hide');
+	// $(this).parents('div#fav-forms').toggleClass('hide');
+	// debugger
+	// create_user_pet
+	// $.ajax(icon, {
+	// 	"method": 'get',
+	// 	"dataType": "script"
+	// });
+}
+
+function changeForm(form){
+	// debugger
+	if (form.attr('id') == 'new_user_pet') {
+		form.replaceWith("<%= j render :partial => 'user_pets/destroy' %>");
+	} else if (form.attr('id') == 'destroy_user_pet') {
+		form.replaceWith("<%= j render :partial => 'user_pets/create' %>");
+	}
+}
+
+
+
+in create.js.erb
+$('#create_user_pet').html("<%= j render(partial: 'destroy', locals: { pet: @pet }) %>")
+
+
+
+
+Search Params:
+{"breed_ids"=>["54","1"],
+"small"=>"1",
+"created"=>"90",
+"save_selections"=>"1"}
+
+
+
+  def sophie
+    sql = "SELECT id from pets LEFT OUTER JOIN (
+          (SELECT pet_id, breed_id, excluded_breeds.hub_exclude from pet_breeds
+          JOIN  
+           (SELECT id, hub_exclude from breeds where hub_exclude IS NOT NULL) excluded_breeds
+            ON pet_breeds.breed_id = excluded_breeds.id)) breeds_and_exclusions
+          ON pets.id = breeds_and_exclusions.pet_id
+          WHERE breeds_and_exclusions.hub_exclude IS NULL
+          ORDER BY created_at DESC"
+    # exclude_pets = Pet.joins(:breeds).where(breeds: { hub_exclude: true })
+    # all_pets = Pet.where.not(pets: { primary_photo: nil }).order('created_at desc').limit(10)
+    # @pets = all_pets.select { |pet| !exclude_pets.include? pet }
+    result = execute_statement(sql)
+    @pets = result.collect { |hash| Pet.find(hash["id"]) }
+  end
+
+
+  ----
+
+  $( document ).ready( function(){
+	remasonry();
+});
+
+function remasonry(){
+	$('.grid').imagesLoaded( function() {
+		$('.grid').masonry({
+		  itemSelector: '.grid-item',
+		  columnWidth: 200,
+		  gutter: 10
+		});
+	});
+}
+
+$("button#remasonry").on('click', remasonry()); // doesn't work

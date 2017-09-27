@@ -4,9 +4,14 @@
   <%= render "search_form" %>
   
   <!-- <button id="remasonry">remasonry</button> -->
+<% if !user_signed_in? %>
+  <p>Sign in or create an account to save a pet to your favorites.</p>
+<% end %>
   
+	
+
   <div id="pet_render_partial">
-    <%= render "pet_render", :pets => @pets %>
+    <%= render "pet_render", :pets => @pets, :@came_from_index_page => true %>
   </div>
   <!-- <nav id="page-nav">
     <a href="../pages/2.html"></a>

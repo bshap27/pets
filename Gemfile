@@ -47,6 +47,7 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'kaminari'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rb-readline'
 gem 'figaro'

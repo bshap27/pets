@@ -35,3 +35,13 @@ function remasonry(){
 }
 
 doMasonry();
+
+$('#pet-render').infinitescroll({
+    // infinite scroll options...
+  },
+  // trigger Masonry as a callback
+  function( newElements ) {
+    var $newElems = $( newElements );
+    $('#pet-render').masonry( 'appended', $newElems );
+  }
+);

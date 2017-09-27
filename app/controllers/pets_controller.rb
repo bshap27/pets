@@ -6,6 +6,7 @@ class PetsController < ApplicationController
     @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
     @breeds = Breed.all.order(:name)
     @searches = UserSearch.where(:user_id => current_user.id).collect {|search| [search.name, search.search]}
+    @page = 1
   end
 
   def show
@@ -20,10 +21,29 @@ class PetsController < ApplicationController
   end
 
   def results
-    @pets = Search.create_query(params)
+    if params["locals"] && params["locals"]["came_from_index_page"]
+      @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
+      @came_from_index_page = true
+    else
+      if params["locals"] && params["locals"]["query_params"]
+        @pets = Search.create_query(params["locals"]["query_params"])
+      else
+        @pets = Search.create_query(params)
+      end
+      @came_from_index_page = false
+    end
+    @page = params["id"].to_i || 1
     if params["save_selections"]
       Search.save_search(current_user, params)
     end
+    respond_to do |f|
+      f.js {}
+    end
+  end
+
+  def next_page
+    @page = params["id"]
+    # @pets = Search.create_query(params).page(page).per(30)
     respond_to do |f|
       f.js {}
     end

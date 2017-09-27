@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   resources :pets
   get 'my_pets' => 'pets#my_pets'
-  get 'results' => 'pets#results'
+  get 'results/:id' => 'pets#results', :as => 'results'
+  # get 'page/:id' => 'pets#next_page', :as => 'next_page'
 
   root 'pets#index'
   # The priority is based upon order of creation: first created -> highest priority.
