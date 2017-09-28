@@ -1,5 +1,1 @@
-$('#pet-render').replaceWith("<%= j render(partial: 'results') %>")
-doMasonry();
-
-// $('#pet-render').append( "<%#= j render(partial: 'pet_render', :locals => {:pets => pets, :came_from_index_page => came_from_index_page}) %>" )
-//.masonry( 'appended', $boxes, true );
+$('#pet-render').append('<%= j render(@res_partial) %>')

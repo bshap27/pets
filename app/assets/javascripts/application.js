@@ -12,21 +12,26 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require_tree ../../../vendor/assets/javascripts/.
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
 
 // masonry
 
-function doMasonry(){
-	$( document ).ready( function(){
-		$('.grid').imagesLoaded( function() {
-			remasonry();
-		});
+$( document ).ready( function(){
+	doMasonry(function(){
+		masonify();
+	});
+});
+
+function doMasonry(callback){
+	$('.grid').imagesLoaded( function() {
+		callback();
 	});
 }
 
-function remasonry(){
+function masonify(){
 	$('.grid').masonry({
 	  itemSelector: '.grid-item',
 	  columnWidth: 200,
@@ -34,14 +39,25 @@ function remasonry(){
 	});
 }
 
-doMasonry();
+function reMasonry(callback){
+	$('#pet-render').masonry('destroy');
+	callback();
+}
 
-$('#pet-render').infinitescroll({
-    // infinite scroll options...
-  },
-  // trigger Masonry as a callback
-  function( newElements ) {
-    var $newElems = $( newElements );
-    $('#pet-render').masonry( 'appended', $newElems );
-  }
-);
+$(document).ajaxSuccess(function() { // re-masonry after new pets load
+	if (jQuery('#pet-render').data('masonry')) {
+		doMasonry(function(){
+			$('#pet-render').masonry('destroy');
+			masonify();
+		});
+	}
+});
+
+var ias = jQuery.ias({
+  container:  '#pet-render',
+  item:       '.grid-item',
+  pagination: '#pagination',
+  next:       '.next',
+  // loader: '<img src="css/ajax-loader.gif"/>', // loading gif
+	// triggerPageThreshold: 5 ,
+});

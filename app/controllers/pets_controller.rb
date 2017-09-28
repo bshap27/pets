@@ -36,8 +36,9 @@ class PetsController < ApplicationController
     if params["save_selections"]
       Search.save_search(current_user, params)
     end
+    @res_partial = render :partial => 'results'
     respond_to do |f|
-      f.js {}
+      f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
     end
   end
 
