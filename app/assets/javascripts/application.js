@@ -45,12 +45,12 @@ function reMasonry(callback){
 }
 
 $(document).ajaxSuccess(function() { // re-masonry after new pets load
-	if (jQuery('#pet-render').data('masonry')) {
+	// if (jQuery('#pet-render').data('masonry')) {
 		doMasonry(function(){
 			$('#pet-render').masonry('destroy');
 			masonify();
 		});
-	}
+	// }
 });
 
 var ias = jQuery.ias({
