@@ -21,24 +21,31 @@ class PetsController < ApplicationController
   end
 
   def results
+    @page = params["id"].to_i || 1
     if params["locals"] && params["locals"]["came_from_index_page"]
       @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
       @came_from_index_page = true
+      @res_partial = render :partial => 'results'
+      respond_to do |f|
+        f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
+      end
     else
+      @came_from_index_page = false
       if params["locals"] && params["locals"]["query_params"]
         @pets = Search.create_query(params["locals"]["query_params"])
+        @res_partial = render :partial => 'results'
+        respond_to do |f|
+          f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
+        end
       else
         @pets = Search.create_query(params)
+        respond_to do |f|
+          f.js { render :action => "results_pg_1" }
+        end
       end
-      @came_from_index_page = false
     end
-    @page = params["id"].to_i || 1
     if params["save_selections"]
       Search.save_search(current_user, params)
-    end
-    @res_partial = render :partial => 'results'
-    respond_to do |f|
-      f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
     end
   end
 
