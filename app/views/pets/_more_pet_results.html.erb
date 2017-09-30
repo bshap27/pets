@@ -1,0 +1,3 @@
+<div id="pagination">
+	<%= link_to "page #{@page + 1}", more_pet_results_path(@page + 1, locals: {came_from_index_page: false}), :remote => true, :class => 'next more-pet-results', :id => 'pagination-link' %>
+</div>

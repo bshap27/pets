@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
   resources :pets
   get 'my_pets' => 'pets#my_pets'
-  get 'results/:id' => 'pets#results', :as => 'results'
+  get 'more_pets/:id' => 'pets#more_pets', :as => 'more_pets'
+  get 'pet_results/:id' => 'pets#results_p_1', :as => 'results_p_1'
+  get 'more_pet_results/:id' => 'pets#more_pet_results', :as => 'more_pet_results'
   # get 'page/:id' => 'pets#next_page', :as => 'next_page'
 
   root 'pets#index'

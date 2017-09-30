@@ -1,0 +1,2 @@
+$('#pet-render').append('<%= j render(@res_partial) %>')
+$('#pagination').replaceWith("<%= j render(partial: 'more_pets', :@page => @page) %>")

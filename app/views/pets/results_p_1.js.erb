@@ -1,0 +1,4 @@
+$('#pet-render').replaceWith("<%= j render(partial: 'results') %>")
+$('#pagination').replaceWith("<%= j render(partial: 'more_pet_results', :@page => @page) %>")
+
+ias.nextUrl = $('.next').attr('href');

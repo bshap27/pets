@@ -9,6 +9,39 @@ class PetsController < ApplicationController
     @page = 1
   end
 
+  def more_pets
+    binding.pry
+    @page = params["id"].to_i || 1
+    @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
+    @res_partial = render :partial => 'results'
+    respond_to do |f|
+      f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
+    end
+  end
+
+  def results_p_1
+    binding.pry
+    @page = params["id"].to_i || 1
+    @pets = Search.create_query(params)
+    respond_to do |f|
+      f.js { render :action => "results_p_1" }
+    end
+
+    if params["save_selections"]
+      Search.save_search(current_user, params)
+    end
+  end
+
+  def more_pet_results
+    binding.pry
+    @page = params["id"].to_i || 1
+    @pets = Search.create_query(params["locals"]["query_params"])
+    @res_partial = render :partial => 'more_pet_results'
+    respond_to do |f|
+      f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
+    end
+  end
+
   def show
   end
 
@@ -17,43 +50,6 @@ class PetsController < ApplicationController
     my_user_pets = UserPet.where(:user_id => current_user.id).select('pet_id')
     my_user_pets.each do |up|
       @pets.push Pet.find(up.pet_id)
-    end
-  end
-
-  def results
-    @page = params["id"].to_i || 1
-    if params["locals"] && params["locals"]["came_from_index_page"]
-      @pets = Pet.where.not(:primary_photo => nil).order(created_at: :desc)
-      @came_from_index_page = true
-      @res_partial = render :partial => 'results'
-      respond_to do |f|
-        f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
-      end
-    else
-      @came_from_index_page = false
-      if params["locals"] && params["locals"]["query_params"]
-        @pets = Search.create_query(params["locals"]["query_params"])
-        @res_partial = render :partial => 'results'
-        respond_to do |f|
-          f.js { @res_partial } # passing partial as local variable to .js.erb avoids sizzle error
-        end
-      else
-        @pets = Search.create_query(params)
-        respond_to do |f|
-          f.js { render :action => "results_pg_1" }
-        end
-      end
-    end
-    if params["save_selections"]
-      Search.save_search(current_user, params)
-    end
-  end
-
-  def next_page
-    @page = params["id"]
-    # @pets = Search.create_query(params).page(page).per(30)
-    respond_to do |f|
-      f.js {}
     end
   end
 
