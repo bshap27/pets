@@ -1,6 +1,5 @@
 <div id="pet-render" class="grid">
 
-  <%# pets[0..30].each do |pet| %>
   <% pets.page(@page).each do |pet| %>
     
 		<div class="grid-item">
@@ -20,8 +19,9 @@
 <div id="pagination">
 	<% if @came_from_index_page %>
 		<%= link_to "page #{@page + 1}", results_path(@page + 1, locals: {came_from_index_page: true}), :remote => true, :class => 'next' %>
+	<% elsif params["locals"] && params["locals"]["query_params"] %>
+		<%= link_to "page #{@page + 1}", results_path(@page + 1, locals: {query_params: params["locals"]["query_params"]}), :remote => true, :class => 'next' %>
 	<% else %>
-	<!-- This isn't working. Specific searches are always reverting to index page (all pets) search after page 1 -->
 		<%= link_to "page #{@page + 1}", results_path(@page + 1, locals: {query_params: params}), :remote => true, :class => 'next' %>
 	<% end %>
 </div>
