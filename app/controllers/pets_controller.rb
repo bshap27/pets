@@ -13,6 +13,7 @@ class PetsController < ApplicationController
   end
 
   def my_pets
+    @page = 1
     @pets = []
     my_user_pets = UserPet.where(:user_id => current_user.id).select('pet_id')
     my_user_pets.each do |up|
