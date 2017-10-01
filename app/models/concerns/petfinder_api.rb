@@ -5,6 +5,26 @@ class PetfinderApi
   # Gem and API do not observe distance/mileage radius around your location.
   API_URL = 'http://api.petfinder.com'
 
+  def self.get_pet(petfinderid)
+    url = "#{API_URL}/pet.get?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&id=#{petfinderid}"
+  end
+
+  def self.check_pet_status(petfinderid)
+    url = self.get_pet(petfinderid)
+    response = open(url) { |v| JSON(v.read).with_indifferent_access }
+    status_code = response["petfinder"]["header"]["status"]["code"]["$t"]
+    if status_code == "201"
+      p = Pet.find_by(:petfinderid => petfinderid)
+      if p
+        p.update(:status => "removed")
+      end
+      puts "Status code #{status_code}: updated pet #{p.petfinderid} status to removed"
+    else
+      puts "Status code #{status_code}: no update"
+        # if 100, pet ok
+    end
+  end
+
   def self.find_new_pets(animal_type, location, *options)
     url = "#{API_URL}/pet.find?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&animal=#{animal_type}&location=#{location}"
     count = 0
