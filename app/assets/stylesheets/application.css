@@ -50,3 +50,14 @@ a:hover.plain-link {
 .hide {
   display: none;
 }
+
+.grid-item img {
+  width: 100%;
+}
+
+.grid-item a p {
+  color: black;
+}
+.grid-item a p:hover {
+  color: #9954bb;
+}
