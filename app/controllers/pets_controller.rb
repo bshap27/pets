@@ -7,7 +7,6 @@ class PetsController < ApplicationController
     @breeds = Breed.all.order(:name)
     @searches = current_user ? UserSearch.where(:user_id => current_user.id).collect {|search| [search.name, search.search]} : nil
     @page = 1
-    # @page = params["id"].to_i || 1
   end
 
   def more_pets
@@ -20,7 +19,7 @@ class PetsController < ApplicationController
   end
 
   def results
-    @page = params["id"].to_i || 1    
+    @page = params["page"].to_i || 1    
     @pets = Search.create_query(params)
     respond_to do |f|
       f.js { render :action => "results" }
@@ -31,7 +30,7 @@ class PetsController < ApplicationController
   end
 
   def more_results
-    @page = params["id"].to_i || 1    
+    @page = params["page"].to_i || 1
     @pets = Search.create_query(params["locals"]["query_params"])
     @res_partial = render :partial => 'more_results'
     respond_to do |f|
@@ -43,12 +42,8 @@ class PetsController < ApplicationController
   end
 
   def my_pets
-    @page = 1
-    @pets = []
-    my_user_pets = UserPet.where(:user_id => current_user.id).select('pet_id')
-    my_user_pets.each do |up|
-      @pets.push Pet.find(up.pet_id)
-    end
+    @page = params["page"].to_i || 1
+    @pets = Pet.joins(:user_pets).where(:user_pets => {:user_id => current_user.id})
   end
 
   # GET /posts/new

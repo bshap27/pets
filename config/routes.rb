@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   resources :user_breeds
 
   resources :pets
-  get 'my_pets' => 'pets#my_pets'
-  get 'results/:id' => 'pets#results', :as => 'results'
-  get 'more_results/:id' => 'pets#more_results', :as => 'more_results'
+  get 'my_pets/:page' => 'pets#my_pets', :as => 'my_pets'
+  get 'results/:page' => 'pets#results', :as => 'results'
+  get 'more_results/:page' => 'pets#more_results', :as => 'more_results'
   get 'more_pets/:page' => 'pets#more_pets', :as => 'more_pets'
   # get 'page/:id' => 'pets#next_page', :as => 'next_page'
 
