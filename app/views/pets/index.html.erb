@@ -14,3 +14,7 @@
     <%= render "pet_render", :pets => @pets, :@came_from_index_page => true %>
   </div>
   <%#= render "search_pagination", :pets => @pets, :@came_from_index_page => true %>
+
+	<div id="pagination">
+		<%= link_to "next", more_pets_path(@page + 1), :remote => true, :class => 'next' %>
+	</div>

@@ -1,3 +1,5 @@
-<div id="pet-render" class="grid">
-	<%= render "pet_render", :pets => @pets %>
+<%= render "pet_render", :pets => @pets %>
+
+<div id="pagination">
+	<%= link_to "next", more_results_path(@page + 1, locals: {query_params: params}), :remote => true, :class => 'next' %>
 </div>
