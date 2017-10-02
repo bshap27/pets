@@ -3,14 +3,14 @@ class PetsController < ApplicationController
   # before_action :set_pet, only: [:show, :edit, :update, :destroy]
   
   def index
-    @pets = Pet.where.not(:primary_photo => nil, :status => 'removed').order(created_at: :desc)
+    @pets = Pet.where(:status => nil).where.not(:primary_photo => nil).order(created_at: :desc)
     @breeds = Breed.all.order(:name)
     @searches = current_user ? UserSearch.where(:user_id => current_user.id).collect {|search| [search.name, search.search]} : nil
     @page = 1
   end
 
   def more_pets
-    @pets = Pet.where.not(:primary_photo => nil, :status => 'removed').order(created_at: :desc)
+    @pets = Pet.where(:status => nil).where.not(:primary_photo => nil).order(created_at: :desc)
     @page = params["page"].to_i || 1
     @res_partial = render :partial => 'more_pets' # broke these out in order to update link_to's for partials
     respond_to do |f|
@@ -19,7 +19,7 @@ class PetsController < ApplicationController
   end
 
   def results
-    @page = params["page"].to_i || 1    
+    @page = params["page"].to_i || 1
     @pets = Search.create_query(params)
     respond_to do |f|
       f.js { render :action => "results" }

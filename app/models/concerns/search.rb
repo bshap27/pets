@@ -25,7 +25,8 @@ class Search
        .where(self.create_breed_query(params))
        .where(self.create_attr_query(params))
        .where("pets.created_at >= ?", Time.now - params["created"].to_i.days)
-       .where.not(:primary_photo => nil, :status => 'removed')
+       .where(:status => nil)
+       .where.not(:primary_photo => nil)#, :status => 'removed')
        .order("pets.created_at desc").uniq
   end
 
