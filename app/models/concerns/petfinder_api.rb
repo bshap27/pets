@@ -30,7 +30,7 @@ class PetfinderApi
       rtn = 'ok'
     else
       puts "Bad status code #{status_code}, shutting down"
-      break
+      return
     end
     puts "#{petfinderid}: Status code #{status_code}. #{msg}."
     rtn
@@ -120,7 +120,7 @@ class PetfinderApi
 
   def self.create_or_update_pet(pet) # pet is a hash containing attrs and breeds
     p = Pet.find_by(petfinderid: pet[:attrs][:petfinderid])
-    if pet.name.downcase.include?('adopted')
+    if pet[:attrs][:name].downcase.include?('adopted')
       pet[:attrs][:status] = 'removed'
     end
     if p == nil
