@@ -9,7 +9,7 @@ class PetfinderGem
 
   # options = breed, size, sex, age, offset, count
   # syntax for options: petfinder.find_pets('dog', 10014, :size => 'S')
-  def self.find_new_pets(animal_type, location, *options)
+  def self.load_pets(animal_type, location, *options)
     petfinder = self.authenticate
     pets = petfinder.find_pets(animal_type, location, *options)
     pets.each do |pet|

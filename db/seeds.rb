@@ -13,7 +13,7 @@ def ingest_pets
   round = 0
 
   while p == count && counter < reps && round < sizes.length
-    p = PetfinderApi.find_new_pets('dog', 10014, :offset => offset, :count => count, :size => sizes[round])
+    p = PetfinderApi.load_pets('dog', 10014, :offset => offset, :count => count, :size => sizes[round])
     offset += count
     counter += 1
     if (p < count || offset >= 2000) && round < sizes.length
@@ -39,7 +39,7 @@ def check_status
 
   ids_to_check = pets_to_check.collect {|pet| pet.petfinderid}.reverse[0..half_count]
   ids_to_check.each do |id|
-    chk = PetfinderApi.check_pet_status(id)
+    chk = PetfinderApi.check_pet(id)
     if chk == 'removed'
       removed_counter += 1
     end

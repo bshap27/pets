@@ -5,14 +5,33 @@ class PetfinderApi
   # Gem and API do not observe distance/mileage radius around your location.
   API_URL = 'http://api.petfinder.com'
 
-  def self.get_pet(petfinderid)
+  def self.pet_url(petfinderid)
     url = "#{API_URL}/pet.get?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&id=#{petfinderid}"
   end
 
-  def self.check_pet_status(petfinderid)
-    url = self.get_pet(petfinderid)
-    response = open(url) { |v| JSON(v.read).with_indifferent_access }
-    status_code = response["petfinder"]["header"]["status"]["code"]["$t"]
+  def self.read_url(url)
+    open(url) { |v| JSON(v.read).with_indifferent_access }
+  end
+
+  def self.get_pet(petfinderid)
+    url = self.pet_url(petfinderid)
+    response = self.read_url(url)
+    response[:petfinder]
+  end
+
+  def self.get_pet_attrs(petfinderid)
+    data = self.get_pet(petfinderid)
+    self.build_pet_attrs_from_api_response(data[:pet])
+  end
+
+  def self.update_pet(petfinderid)
+    attrs = self.get_pet_attrs(petfinderid)
+    self.create_or_update_pet(attrs)
+  end
+
+  def self.check_pet(petfinderid)
+    data = self.get_pet(petfinderid)
+    status_code = data["header"]["status"]["code"]["$t"]
     if status_code == "201"
       p = Pet.find_by(:petfinderid => petfinderid)
       if p
@@ -36,7 +55,7 @@ class PetfinderApi
     rtn
   end
 
-  def self.find_new_pets(animal_type, location, *options)
+  def self.pet_query(animal_type, location, *options)
     url = "#{API_URL}/pet.find?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&animal=#{animal_type}&location=#{location}"
     count = 0
     # age=young&age=adult&gender=female&distance=25&characteristics=houseTrained&size=S&size=M
@@ -47,20 +66,19 @@ class PetfinderApi
       end
     end
     # puts url # log url to be able to replicate API call
-    response = open(url) { |v| JSON(v.read).with_indifferent_access }
+    response = self.read_url(url)
     data = response[:petfinder][:pets]
+    data[:pet].is_a?(Array) ? data[:pet] : [data[:pet]]
+  end
+
+  def self.load_pets(animal_type, location, *options)
+    pet_results = self.pet_query(animal_type, location, *options)
 
     begin
-      if data[:pet].is_a? Array
-        data[:pet].each do |pet|
-          attrs = get_pet_attrs(pet)
-          create_or_update_pet(attrs)
-          count += 1
-        end
-      else
-        attrs = get_pet_attrs(data[:pet])
+      pet_results.each do |pet|
+        attrs = build_pet_attrs_from_api_response(pet)
         create_or_update_pet(attrs)
-        count = 1
+        count += 1
       end
     rescue
       puts data
@@ -69,7 +87,7 @@ class PetfinderApi
     count
   end
 
-  def self.get_pet_attrs(pet = {})
+  def self.build_pet_attrs_from_api_response(pet = {})
     # pet URL is https://www.petfinder.com/petdetail/<id>
     attrs = {
       petfinderid: pet[:id]['$t'],
