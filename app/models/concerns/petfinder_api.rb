@@ -84,9 +84,10 @@ class PetfinderApi
       age: pet[:age]['$t'].downcase,
       size: pet[:size]['$t'],
       mix: pet[:mix]['$t'],
-      animal: pet[:animal]['$t']
+      animal: pet[:animal]['$t'],
       # photos below
     }
+    attrs[:status] = 'removed' if pet[:status]['$t'] == 'X'
 
     breeds = []
     if pet[:breeds][:breed].is_a? Array
@@ -120,9 +121,6 @@ class PetfinderApi
 
   def self.create_or_update_pet(pet) # pet is a hash containing attrs and breeds
     p = Pet.find_by(petfinderid: pet[:attrs][:petfinderid])
-    if pet[:attrs][:name].downcase.include?('adopted')
-      pet[:attrs][:status] = 'removed'
-    end
     if p == nil
       pet[:attrs][:new_pet] = true
       new_pet = Pet.create(pet[:attrs])
