@@ -61,3 +61,23 @@ a:hover.plain-link {
 .grid-item a p:hover {
   color: #9954bb;
 }
+
+.tab, .tab:hover {
+  border-top: 1px solid #D0D0D0;
+  border-left: 1px solid #D0D0D0;
+  border-right: 1px solid #D0D0D0;
+  border-radius: 10px 10px 0px 0px;
+  padding: 2px 5px 2px 5px;
+  background-color: #F5F5F5;
+  color: #666;
+}
+
+.tab.active, .tab.active:hover {
+  border-top: 1px solid #D0D0D0;
+  border-left: 1px solid #D0D0D0;
+  border-right: 1px solid #D0D0D0;
+  border-radius: 10px 10px 0px 0px;
+  padding: 2px 5px 2px 5px;
+  background-color: #FFFFFF;
+  color: #666;
+}
