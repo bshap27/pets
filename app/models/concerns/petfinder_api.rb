@@ -16,13 +16,24 @@ class PetfinderApi
     if status_code == "201"
       p = Pet.find_by(:petfinderid => petfinderid)
       if p
-        p.update(:status => "removed")
+        if p.status == 'removed'
+          msg = "Status already removed"
+          rtn = 'no update'
+        else
+          p.update(:status => "removed")
+          msg = "Updated status to removed"
+          rtn = 'removed'
+        end
       end
-      puts "Status code #{status_code}: updated pet #{p.petfinderid} status to removed"
+    elsif status_code == "100"
+      msg = 'Ok'
+      rtn = 'ok'
     else
-      puts "Status code #{status_code}: no update"
-        # if 100, pet ok
+      puts "Bad status code #{status_code}, shutting down"
+      break
     end
+    puts "#{petfinderid}: Status code #{status_code}. #{msg}."
+    rtn
   end
 
   def self.find_new_pets(animal_type, location, *options)
@@ -109,6 +120,9 @@ class PetfinderApi
 
   def self.create_or_update_pet(pet) # pet is a hash containing attrs and breeds
     p = Pet.find_by(petfinderid: pet[:attrs][:petfinderid])
+    if pet.name.downcase.include?('adopted')
+      pet[:attrs][:status] = 'removed'
+    end
     if p == nil
       pet[:attrs][:new_pet] = true
       new_pet = Pet.create(pet[:attrs])
