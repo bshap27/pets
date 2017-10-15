@@ -57,7 +57,6 @@ class PetfinderApi
 
   def self.pet_query(animal_type, location, *options)
     url = "#{API_URL}/pet.find?key=#{ENV["PETFINDER_CLIENT_ID"]}&format=json&animal=#{animal_type}&location=#{location}"
-    count = 0
     # age=young&age=adult&gender=female&distance=25&characteristics=houseTrained&size=S&size=M
     # options looks like this: [{:count=>25, :size=>"S"}]
     if options.length > 0
@@ -73,7 +72,8 @@ class PetfinderApi
 
   def self.load_pets(animal_type, location, *options)
     pet_results = self.pet_query(animal_type, location, *options)
-
+    count = 0
+    
     begin
       pet_results.each do |pet|
         attrs = build_pet_attrs_from_api_response(pet)
@@ -81,7 +81,7 @@ class PetfinderApi
         count += 1
       end
     rescue
-      puts data
+      puts pet_results
     end
 
     count
