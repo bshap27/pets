@@ -1,64 +1,83 @@
-<%= form_tag("/results/1", method: "get", :remote => true, :class => "form-horizontal", :id => 'search-form') do %>
-  <fieldset>
-    <legend>Find Pets</legend>
-    <div class="flex-container">
-  <div class="flex-item">
-    <div class="form-group">
-      <!-- breed -->
-      <div id="breed-single"> 
-        <%= label_tag('breed_ids[]', Breed, :class => 'col-lg-2 control-label') %>
-        <div class="col-lg-8">
-          <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "breed_select") %>
-          <div class="custom-right">
-            <a href="#" id="choose_multiple_breeds" data-toggle="modal" data-target="#breedModal">Choose Multiple</a>
-            <span> &#8226; </span>
-            <a href="#" class="soph_breeds" data-toggle="modal" data-target="#breedModal">Soph Brandon Breeds</a>
+<fieldset>
+  <legend><a class="tab active" href="#">Find Pets</a><a class="tab" href="#">Find Pet by Name</a></legend>
+  <!-- search by name -->
+  <%= form_tag("/name_results", method: "get", :remote => true, :class => "form-horizontal hide", :id => 'name-search-form') do %>
+    <div class="flex-container" id="search-by-name">
+      <div class="form-group">
+        <div id="name"> 
+          <%= label_tag('name', "Name", :class => 'col-lg-2 control-label') %>
+          <div class="col-lg-8">
+            <%= text_field_tag(:name, "fido", :class => "form-control") %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <%= submit_tag("Search", :class => "btn btn-info custom-right") %>
+      </div>
+    </div>
+  <% end %>  
+
+  <!-- regular search -->
+  <%= form_tag("/results/1", method: "get", :remote => true, :class => "form-horizontal", :id => 'search-form') do %>
+    <div class="flex-container" id="regular-search">
+      <div class="flex-item">
+        <div class="form-group">
+          <!-- breed -->
+          <div id="breed-single"> 
+            <%= label_tag('breed_ids[]', Breed, :class => 'col-lg-2 control-label') %>
+            <div class="col-lg-8">
+              <%= select_tag('breed_ids[]', options_for_select(@breeds.collect {|breed| [breed.name, breed.id]}.unshift("Any")), :class => "form-control", :id => "breed_select") %>
+              <div class="custom-right">
+                <a href="#" id="choose_multiple_breeds" data-toggle="modal" data-target="#breedModal">Choose Multiple</a>
+                <span> &#8226; </span>
+                <a href="#" class="soph_breeds" data-toggle="modal" data-target="#breedModal">Soph Brandon Breeds</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- MULTIPLE BREED MODAL -->
+
+    <div class="modal" id="breedModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">All Breeds</h4>
+          </div>
+          <div class="modal-body">
+            
+            <a href="#" id="deselect_all" class="hide">Deselect All</a>
+            <a href="#" id="select_all">Select All</a> &#8226;
+            <a href="#" class="soph_breeds">Soph & Brandon Breeds</a>
+            <!-- <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a> -->
+
+            <% breed_count = @breeds.count %>
+            <% breed_table = @breeds.each_slice((breed_count/4.0).ceil).to_a %>
+            <table>
+              <tr>
+              <% breed_table.each do |ary| %>
+                <td valign="top" width="240">
+                <% ary.each_with_index do |breed, index| %>
+                <p style="margin: -1px">
+                  <% if breed.hub_exclude then ckbox_class = 'hub-exclude' else ckbox_class = 'soph-ok' end %>
+                  <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox ' + ckbox_class) %>
+                  <%= label_tag('breed_ids[]', breed.name, :class => 'breed-list') %>
+                </p>
+                <% end %>
+                </td>
+              <% end %>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="save-multiple" class="btn btn-primary btn-info" data-dismiss="modal">Save changes</button>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- MULTIPLE BREED MODAL -->
-
-<div class="modal" id="breedModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">All Breeds</h4>
-      </div>
-      <div class="modal-body">
-        
-        <a href="#" id="deselect_all" class="hide">Deselect All</a>
-        <a href="#" id="select_all">Select All</a> &#8226;
-        <a href="#" class="soph_breeds">Soph & Brandon Breeds</a>
-        <!-- <a href="#" id="choose_single_breed" class="custom-right">Select from Dropdown</a> -->
-
-        <% breed_count = @breeds.count %>
-        <% breed_table = @breeds.each_slice((breed_count/4.0).ceil).to_a %>
-        <table>
-          <tr>
-          <% breed_table.each do |ary| %>
-            <td valign="top" width="240">
-            <% ary.each_with_index do |breed, index| %>
-            <p style="margin: -1px">
-              <% if breed.hub_exclude then ckbox_class = 'hub-exclude' else ckbox_class = 'soph-ok' end %>
-              <%= check_box_tag('breed_ids[]', breed.id, false, :class => 'breed-checkbox ' + ckbox_class) %>
-              <%= label_tag('breed_ids[]', breed.name, :class => 'breed-list') %>
-            </p>
-            <% end %>
-            </td>
-          <% end %>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="save-multiple" class="btn btn-primary btn-info" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
     <!-- END MODAL -->
       
@@ -137,5 +156,5 @@
   </div>
 </div>
 
-  </fieldset>
 <% end %>
+</fieldset>

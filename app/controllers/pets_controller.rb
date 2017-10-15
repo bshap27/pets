@@ -29,6 +29,14 @@ class PetsController < ApplicationController
     end
   end
 
+  def name_results
+    @pets = Pet.where('lower(name) = ?', params[:name].downcase)
+    @page = 1
+    respond_to do |f|
+      f.js { render :action => "results" }
+    end
+  end
+
   def more_results
     @page = params["page"].to_i || 1
     @pets = Search.create_query(params["locals"]["query_params"])

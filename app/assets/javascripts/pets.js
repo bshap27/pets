@@ -51,7 +51,15 @@ $( document ).ready( function(){
 		$('input[type="checkbox"].breed-checkbox').each(function() {
 		   this.checked = check;
 		});
-	};
+	}
+
+	$('.tab').on('click', function(){
+		if (!$(this).hasClass('active')) {
+			$('.tab').toggleClass('active');
+			$('form#search-form').toggleClass('hide');
+			$('#name-search-form').toggleClass('hide');
+		}
+	});
 
 
 	$("#save-multiple").on('click', function(){
