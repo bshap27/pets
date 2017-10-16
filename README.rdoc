@@ -29,9 +29,7 @@ Please feel free to use a different markup language if you do not plan to run
 
 =========
 
-some pets no longer exist
-
-if adopted in name, mark status
-
+fix infinite scroll on favorite pets page
+fix infinite scroll behavior when re-searching
 
 next link displys in search results when no results found
