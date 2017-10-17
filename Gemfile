@@ -51,6 +51,7 @@ group :production do
   gem 'unicorn'
 end
 
+gem "capistrano", "~> 3.9"
 gem 'kaminari'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rb-readline'
