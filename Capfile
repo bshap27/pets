@@ -15,10 +15,6 @@ require "capistrano/deploy"
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
-require "bundler"
-require "whenever/bundler"
-require "whenever/capistrano"
-
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
@@ -29,7 +25,13 @@ require "whenever/capistrano"
 #   https://github.com/capistrano/bundler
 #   https://github.com/capistrano/rails
 #   https://github.com/capistrano/passenger
-#
+
+require 'capistrano/rbenv'
+# require 'capistrano/setup'
+# require 'capistrano/deploy'
+# require 'capistrano/bundler'
+# require 'capistrano3/unicorn'
+
 # require "capistrano/rvm"
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
