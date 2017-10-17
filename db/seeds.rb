@@ -26,15 +26,15 @@ def ingest_pets
 end
 
 def check_status
-  num_all_pets = Pet.all.count
+  num_all_pets = Pet.where(:status => nil).count
   half_count = num_all_pets/2
   removed_counter = 0
   total_checked_counter = 0
 
   if Date.today.strftime('%d').to_i % 2 == 0
-    pets_to_check = Pet.select(:petfinderid).limit(half_count)
+    pets_to_check = Pet.select(:petfinderid).where(:status => nil).limit(half_count)
   else
-    pets_to_check = Pet.select(:petfinderid)
+    pets_to_check = Pet.select(:petfinderid).where(:status => nil)
   end
 
   ids_to_check = pets_to_check.collect {|pet| pet.petfinderid}.reverse[0..half_count]
