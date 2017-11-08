@@ -33,3 +33,38 @@ I, [2017-10-15T20:24:33.093793 #8108]  INFO -- : worker=0 spawned pid=8108
 I, [2017-10-15T20:24:33.094065 #8108]  INFO -- : worker=0 ready
 I, [2017-10-15T20:24:33.095097 #8110]  INFO -- : worker=1 spawned pid=8110
 I, [2017-10-15T20:24:33.095284 #8110]  INFO -- : worker=1 ready
+The PGconn, PGresult, and PGError constants are deprecated, and will be
+removed as of version 1.0.
+
+You should use PG::Connection, PG::Result, and PG::Error instead, respectively.
+
+Called from /home/becca/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/activerecord-4.2.0/lib/active_record/connection_adapters/postgresql_adapter.rb:44:in `new'
+The PGconn, PGresult, and PGError constants are deprecated, and will be
+removed as of version 1.0.
+
+You should use PG::Connection, PG::Result, and PG::Error instead, respectively.
+
+Called from /home/becca/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/activerecord-4.2.0/lib/active_record/connection_adapters/postgresql_adapter.rb:44:in `new'
+I, [2017-10-18T03:07:56.520340 #14519]  INFO -- : executing ["/home/becca/.rbenv/versions/2.2.0/bin/unicorn", "-c", "config/unicorn.rb", "-E", "production", "-D", {10=>#<Kgio::UNIXServer:/home/becca/pets/shared/sockets/unicorn.sock>}] (in /home/becca/pets)
+I, [2017-10-18T03:07:56.522526 #14519]  INFO -- : forked child re-executing...
+I, [2017-10-18T03:07:56.928958 #14519]  INFO -- : inherited addr=/home/becca/pets/shared/sockets/unicorn.sock fd=10
+I, [2017-10-18T03:07:56.929541 #14519]  INFO -- : Refreshing Gem list
+I, [2017-10-18T03:08:00.597663 #14519]  INFO -- : worker=0 spawning...
+I, [2017-10-18T03:08:00.602838 #14519]  INFO -- : worker=1 spawning...
+I, [2017-10-18T03:08:00.604304 #14525]  INFO -- : worker=0 spawned pid=14525
+I, [2017-10-18T03:08:00.607042 #14519]  INFO -- : master process ready
+I, [2017-10-18T03:08:00.607735 #14525]  INFO -- : worker=0 ready
+I, [2017-10-18T03:08:00.609180 #14528]  INFO -- : worker=1 spawned pid=14528
+I, [2017-10-18T03:08:00.609414 #14528]  INFO -- : worker=1 ready
+The PGconn, PGresult, and PGError constants are deprecated, and will be
+removed as of version 1.0.
+
+You should use PG::Connection, PG::Result, and PG::Error instead, respectively.
+
+Called from /home/becca/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/activerecord-4.2.0/lib/active_record/connection_adapters/postgresql_adapter.rb:44:in `new'
+The PGconn, PGresult, and PGError constants are deprecated, and will be
+removed as of version 1.0.
+
+You should use PG::Connection, PG::Result, and PG::Error instead, respectively.
+
+Called from /home/becca/.rbenv/versions/2.2.0/lib/ruby/gems/2.2.0/gems/activerecord-4.2.0/lib/active_record/connection_adapters/postgresql_adapter.rb:44:in `new'

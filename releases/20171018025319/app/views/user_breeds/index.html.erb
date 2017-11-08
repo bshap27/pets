@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing User Breeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_breeds.each do |user_breed| %>
+      <tr>
+        <td><%= link_to 'Show', user_breed %></td>
+        <td><%= link_to 'Edit', edit_user_breed_path(user_breed) %></td>
+        <td><%= link_to 'Destroy', user_breed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User breed', new_user_breed_path %>

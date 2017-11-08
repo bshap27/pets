@@ -1,0 +1,8 @@
+<div class="create_form">
+<%= form_for(UserPet.new, :class => 'btn ', :id => 'create_user_pet', :remote => true) do |f| %>
+  <%= f.hidden_field(:user_id, :value => current_user.id) %>
+  <%= f.hidden_field(:pet_id, :value => pet.id) %>
+  <%= f.button "", class: "fa fa-heart-o" %>
+  <%#= fa_icon "heart" %>
+<% end %>
+</div>

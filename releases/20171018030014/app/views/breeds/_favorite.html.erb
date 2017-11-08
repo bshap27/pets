@@ -1,0 +1,17 @@
+<div class="custom-right" style="margin: 13px">
+<% if user_signed_in? %>
+  <% if @favorited = current_user.favorited_breed?(breed) %>
+    <%= form_for(@favorited, :class => 'btn', :method => :delete) do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:breed_id, :value => breed.id) %>
+      <%= f.button "", class: "fa fa-heart" %>
+    <% end %>
+  <% else %>
+    <%= form_for(UserBreed.new, :class => 'btn') do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:breed_id, :value => breed.id) %>
+      <%= f.button "", class: "fa fa-heart-o" %>
+    <% end %>
+  <% end %>
+<% end %>
+</div>

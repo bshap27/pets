@@ -1,0 +1,22 @@
+<div id="pet-render" class="grid">
+
+  <% pets.page(@page).each do |pet| %>
+    
+		<div class="grid-item">
+			<a href="https://www.petfinder.com/petdetail/<%= pet.petfinderid %>" class="plain-link" target="_blank" style="text-decoration: none;">
+				<div class="custom-left" style="margin: 13px 0 0 13px; width: 125px">
+		  		<p style="font-size: 14px"><%= pet.name.upcase %></p>
+		  		<p style="font-size: 12px"><%= pet.breeds.collect {|b| b.name }.join(", ") %></p>
+		  	</div>
+		  	<%= render "favorite", :pet => pet %>
+		  	
+		    <% if pet.primary_photo %>
+		      <img src="<%= pet.primary_photo.split('?')[0] %>">
+		    <% end %>
+		  </a>
+
+		  <p style="font-size: 10px"><% if pet.new_pet %><span style="font-weight: bold;">NEW! </span><% end %>Added on <%= pet.created_at.strftime("%B %d, %Y") %></p>
+		  
+		</div>
+  <% end %>
+</div>

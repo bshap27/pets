@@ -1,0 +1,20 @@
+<div id="msg_placeholder"></div>
+
+<% if !user_signed_in? %>
+  <p>Sign in or create an account to save searches and to save pets to your favorites.</p>
+<% else %>
+  <%= render "saved_search_form" %>
+<% end %>
+
+
+  <%= render "search_form" %>
+  
+  <div id="results_count"></div>
+  <div id="pet_render_partial">
+    <%= render "pet_render", :pets => @pets, :@came_from_index_page => true %>
+  </div>
+  <%#= render "search_pagination", :pets => @pets, :@came_from_index_page => true %>
+
+	<div id="pagination">
+		<%= link_to "", more_pets_path(@page + 1), :remote => true, :class => 'next' %>
+	</div>

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <%= link_to(fa_icon("paw") + " Becca's Petfinder", root_path, :class => "navbar-brand", :role => "button") %>
+    </div>
+
+		<div>
+		  <ul class="nav navbar-nav navbar-right">
+		    <% if user_signed_in? %>
+		      <li class="dropdown">
+		        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hello, <%= current_user.email %>! <span class="caret"></span></a>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a href="<%= my_pets_path(1) %>">My Favorite Pets</a></li>
+		          <li><a href="<%= edit_user_registration_path %>">My Account</a></li>
+		        </ul>
+		      </li>
+		      <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
+		    <% else %>
+		      <li><%= link_to "Sign In", new_user_session_path %></li>
+		    <% end %>
+		  </ul>
+		</div>
+
+  </div>
+</nav>

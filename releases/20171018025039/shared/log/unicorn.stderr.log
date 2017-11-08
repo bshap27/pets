@@ -1,0 +1,35 @@
+I, [2017-10-15T20:22:48.799399 #7865]  INFO -- : Refreshing Gem list
+I, [2017-10-15T20:22:51.251798 #7865]  INFO -- : listening on addr=/home/becca/pets/shared/sockets/unicorn.sock fd=10
+I, [2017-10-15T20:22:51.252023 #7865]  INFO -- : worker=0 spawning...
+I, [2017-10-15T20:22:51.254544 #7865]  INFO -- : worker=1 spawning...
+I, [2017-10-15T20:22:51.255685 #7868]  INFO -- : worker=0 spawned pid=7868
+I, [2017-10-15T20:22:51.255922 #7868]  INFO -- : worker=0 ready
+I, [2017-10-15T20:22:51.258646 #7865]  INFO -- : master process ready
+I, [2017-10-15T20:22:51.263331 #7871]  INFO -- : worker=1 spawned pid=7871
+I, [2017-10-15T20:22:51.263604 #7871]  INFO -- : worker=1 ready
+I, [2017-10-15T20:24:16.345238 #7865]  INFO -- : reaped #<Process::Status: pid 7868 exit 0> worker=0
+I, [2017-10-15T20:24:16.345522 #7865]  INFO -- : reaped #<Process::Status: pid 7871 exit 0> worker=1
+I, [2017-10-15T20:24:16.345687 #7865]  INFO -- : master complete
+I, [2017-10-15T20:24:18.539301 #7992]  INFO -- : Refreshing Gem list
+I, [2017-10-15T20:24:21.021684 #7992]  INFO -- : unlinking existing socket=/home/becca/pets/shared/sockets/unicorn.sock
+I, [2017-10-15T20:24:21.023120 #7992]  INFO -- : listening on addr=/home/becca/pets/shared/sockets/unicorn.sock fd=10
+I, [2017-10-15T20:24:21.023362 #7992]  INFO -- : worker=0 spawning...
+I, [2017-10-15T20:24:21.026919 #7992]  INFO -- : worker=1 spawning...
+I, [2017-10-15T20:24:21.028097 #7995]  INFO -- : worker=0 spawned pid=7995
+I, [2017-10-15T20:24:21.028300 #7995]  INFO -- : worker=0 ready
+I, [2017-10-15T20:24:21.029936 #7992]  INFO -- : master process ready
+I, [2017-10-15T20:24:21.038016 #7998]  INFO -- : worker=1 spawned pid=7998
+I, [2017-10-15T20:24:21.038284 #7998]  INFO -- : worker=1 ready
+I, [2017-10-15T20:24:23.467556 #7992]  INFO -- : reaped #<Process::Status: pid 7995 exit 0> worker=0
+I, [2017-10-15T20:24:23.467738 #7992]  INFO -- : reaped #<Process::Status: pid 7998 exit 0> worker=1
+I, [2017-10-15T20:24:23.467849 #7992]  INFO -- : master complete
+I, [2017-10-15T20:24:30.751053 #8104]  INFO -- : Refreshing Gem list
+I, [2017-10-15T20:24:33.082233 #8104]  INFO -- : unlinking existing socket=/home/becca/pets/shared/sockets/unicorn.sock
+I, [2017-10-15T20:24:33.082501 #8104]  INFO -- : listening on addr=/home/becca/pets/shared/sockets/unicorn.sock fd=10
+I, [2017-10-15T20:24:33.082660 #8104]  INFO -- : worker=0 spawning...
+I, [2017-10-15T20:24:33.085145 #8104]  INFO -- : worker=1 spawning...
+I, [2017-10-15T20:24:33.086703 #8104]  INFO -- : master process ready
+I, [2017-10-15T20:24:33.093793 #8108]  INFO -- : worker=0 spawned pid=8108
+I, [2017-10-15T20:24:33.094065 #8108]  INFO -- : worker=0 ready
+I, [2017-10-15T20:24:33.095097 #8110]  INFO -- : worker=1 spawned pid=8110
+I, [2017-10-15T20:24:33.095284 #8110]  INFO -- : worker=1 ready

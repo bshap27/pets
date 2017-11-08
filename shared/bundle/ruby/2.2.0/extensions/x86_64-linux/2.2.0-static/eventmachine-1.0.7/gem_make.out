@@ -1,0 +1,12 @@
+/home/becca/.rbenv/versions/2.2.0/bin/ruby -r ./siteconf20171018-31214-ombp5v.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling mapper.cpp
+compiling rubymain.cpp
+linking shared-object fastfilereaderext.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 fastfilereaderext.so ./.gem.20171018-31214-1dse4fo

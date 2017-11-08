@@ -1,0 +1,9 @@
+<div id="favorite_heart" class="custom-right" style="margin: 13px">
+<% if user_signed_in? %>
+  <% if @favorited = current_user.favorited_pet?(pet) %> <!-- already in favorites -->
+    <%= render "user_pets/destroy", :pet => pet %>
+  <% else %>
+    <%= render "user_pets/create", :pet => pet %>
+  <% end %>
+<% end %>
+</div>

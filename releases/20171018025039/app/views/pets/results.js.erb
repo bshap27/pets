@@ -1,0 +1,5 @@
+$('#pet-render').replaceWith("<div id='pet-render' class='grid'><%= j render(partial: 'results') %></div>")
+
+ias.nextUrl = $('.next').attr('href');
+
+$('#results_count').replaceWith("<div id='results_count'><%= @pets.count %> Results:</div>")

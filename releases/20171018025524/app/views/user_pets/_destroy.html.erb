@@ -1,0 +1,8 @@
+<div class="destroy_form">
+<% @favorited = current_user.favorited_pet?(pet) %>
+<%= form_for(@favorited, :class => 'btn', :id => 'destroy_user_pet', :pet_id => pet.id, :method => :delete, :remote => true) do |f| %>
+  <%= f.hidden_field(:user_id, :value => current_user.id) %>
+  <%= f.hidden_field(:pet_id, :value => pet.id) %>
+  <%= f.button "", class: "fa fa-heart" %>
+<% end %>
+</div>

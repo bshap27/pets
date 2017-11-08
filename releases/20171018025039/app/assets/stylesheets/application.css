@@ -1,0 +1,83 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_tree ../../../vendor/assets/stylesheets/.
+ *= require_self
+ *= require font-awesome
+ */
+
+@import "bootstrap";
+/* Some Style from the Bootstrap Default Theme */
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+/* MASONRY */
+
+
+/*Masonry Docs*/
+.grid-item {
+	width: 200px;
+	/*padding: 10px;*/
+	margin-bottom: 10px;
+	border: 1px black solid;
+	border-radius: 15px;
+}
+
+a:hover.plain-link {
+  color: black;
+  background-color: white;
+}
+
+.custom-left {
+  float: left;
+}
+.custom-right {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+.grid-item img {
+  width: 100%;
+}
+
+.grid-item a p {
+  color: black;
+}
+.grid-item a p:hover {
+  color: #9954bb;
+}
+
+.tab, .tab:hover {
+  border-top: 1px solid #D0D0D0;
+  border-left: 1px solid #D0D0D0;
+  border-right: 1px solid #D0D0D0;
+  border-radius: 10px 10px 0px 0px;
+  padding: 2px 5px 2px 5px;
+  background-color: #F5F5F5;
+  color: #666;
+}
+
+.tab.active, .tab.active:hover {
+  border-top: 1px solid #D0D0D0;
+  border-left: 1px solid #D0D0D0;
+  border-right: 1px solid #D0D0D0;
+  border-radius: 10px 10px 0px 0px;
+  padding: 2px 5px 2px 5px;
+  background-color: #FFFFFF;
+  color: #666;
+}
