@@ -19,6 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, 'log/cron.log'
 every :day, :at => '2:20am', :roles => [:becca] do
   rake "db:seed"
 end
