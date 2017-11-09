@@ -1,3 +1,4 @@
+require 'pry'
 class PetsController < ApplicationController
 
   # before_action :set_pet, only: [:show, :edit, :update, :destroy]
@@ -19,8 +20,9 @@ class PetsController < ApplicationController
   end
 
   def results
+    saved_params = params["search"] ? eval(params["search"]) : nil # saved search
     @page = params["page"].to_i || 1
-    @pets = Search.create_query(params)
+    @pets = Search.create_query(saved_params || params)
     respond_to do |f|
       f.js { render :action => "results" }
     end
